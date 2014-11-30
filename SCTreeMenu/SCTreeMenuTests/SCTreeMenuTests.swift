@@ -1,15 +1,15 @@
 //
-//  SCTreeMenuSelectorTests.swift
-//  SCTreeMenuSelectorTests
+//  SCTreeMenuTests.swift
+//  SCTreeMenuTests
 //
-//  Created by Shengzhe Chen on 11/25/14.
+//  Created by Shengzhe Chen on 11/29/14.
 //  Copyright (c) 2014 Shengzhe Chen. All rights reserved.
 //
 
 import UIKit
 import XCTest
 
-class SCTreeMenuSelectorTests: XCTestCase {
+class SCTreeMenuTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

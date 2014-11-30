@@ -9,24 +9,24 @@
 import Foundation
 import UIKit
 
-@objc protocol SCTreeMenuItemCellDelegate : class
+@objc public protocol SCTreeMenuItemCellDelegate : class
 {
     optional func menuItemCell(#cell: SCTreeMenuItemCell, didActionButtonClicked sender:AnyObject?)
 }
 
-@objc protocol SCTreeMenuViewDelegate : class
+@objc public protocol SCTreeMenuViewDelegate : class
 {
     optional func menuView(#menuView: SCTreeMenuView, didSelectRowAtIndexPath indexPath:NSIndexPath)
 }
 
-class SCTreeMenuItem : NSObject, UITableViewDataSource
+public class SCTreeMenuItem : NSObject, UITableViewDataSource
 {
-    weak var parent: SCTreeMenuItem?
-    var descendents = [SCTreeMenuItem]()
-    var text: String = ""
-    var isCollapsed = true
+    weak public var parent: SCTreeMenuItem?
+    public var descendents = [SCTreeMenuItem]()
+    public var text: String = ""
+    public var isCollapsed = true
     
-    var root: SCTreeMenuItem? {
+    public var root: SCTreeMenuItem? {
         var parent: SCTreeMenuItem? = self
         while parent?.parent != nil {
             parent = parent?.parent
@@ -34,11 +34,11 @@ class SCTreeMenuItem : NSObject, UITableViewDataSource
         return parent
     }
     
-    var isRoot: Bool {
+    public var isRoot: Bool {
         return self.root == self
     }
     
-    var depth: Int {
+    public var depth: Int {
         var parent: SCTreeMenuItem? = self.parent
         var depth = 0
         while parent != nil {
@@ -48,7 +48,7 @@ class SCTreeMenuItem : NSObject, UITableViewDataSource
         return depth
     }
     
-    subscript(index: Int) -> SCTreeMenuItem?
+    public subscript(index: Int) -> SCTreeMenuItem?
         {
             var backwards = self.depth - index
             if backwards < 0 { return nil}
@@ -59,19 +59,19 @@ class SCTreeMenuItem : NSObject, UITableViewDataSource
             return ancestor
     }
     
-    convenience init(parent: SCTreeMenuItem?, text:String)
+    public convenience init(parent: SCTreeMenuItem?, text:String)
     {
         self.init(text: text)
         self.parent = parent
     }
     
-    convenience init(text: String)
+    public convenience init(text: String)
     {
         self.init()
         self.text = text
     }
     
-    func collapse()
+    public func collapse()
     {
         var list = [SCTreeMenuItem]()
         list.append(self)
@@ -84,12 +84,12 @@ class SCTreeMenuItem : NSObject, UITableViewDataSource
         }
     }
     
-    func drillDown()
+    public func drillDown()
     {
         self.isCollapsed = false
     }
     
-    func menuItemAtIndexPath(indexPath:NSIndexPath) -> SCTreeMenuItem
+    public func menuItemAtIndexPath(indexPath:NSIndexPath) -> SCTreeMenuItem
     {
         if let ancestor = self[indexPath.row] {
             return ancestor
@@ -98,7 +98,7 @@ class SCTreeMenuItem : NSObject, UITableViewDataSource
         }
     }
     
-    func indexPathOfMenuItem(menuItem: SCTreeMenuItem) -> NSIndexPath
+    public func indexPathOfMenuItem(menuItem: SCTreeMenuItem) -> NSIndexPath
     {
         var flag = true
         var count = 0
@@ -114,17 +114,17 @@ class SCTreeMenuItem : NSObject, UITableViewDataSource
         return NSIndexPath(forRow: max(0, count-1), inSection: 0)
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    public func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return self.descendents.count + self.depth + 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         var cell: SCTreeMenuItemCell = tableView.dequeueReusableCellWithIdentifier("SCTreeMenuItemCellIdentifier", forIndexPath: indexPath) as SCTreeMenuItemCell
         cell.menuItem = self.menuItemAtIndexPath(indexPath)
@@ -132,15 +132,15 @@ class SCTreeMenuItem : NSObject, UITableViewDataSource
     }
 }
 
-class SCTreeMenuItemCell: UITableViewCell
+public class SCTreeMenuItemCell: UITableViewCell
 {
-    var menuItemTextLabel: UILabel
-    var menuItemActionButton: UIButton
-    var seperator: UIView?
-    weak var delegate: SCTreeMenuItemCellDelegate?
-    var menuItem: SCTreeMenuItem?
+    public var menuItemTextLabel: UILabel
+    public var menuItemActionButton: UIButton
+    public var seperator: UIView?
+    public weak var delegate: SCTreeMenuItemCellDelegate?
+    public var menuItem: SCTreeMenuItem?
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?)
+    override public init(style: UITableViewCellStyle, reuseIdentifier: String?)
     {
         self.menuItemTextLabel = UILabel()
         self.menuItemTextLabel.font = UIFont(name: "AvenirNextCondensed-Regular", size: 14.0)
@@ -156,17 +156,17 @@ class SCTreeMenuItemCell: UITableViewCell
         self.contentView.addSubview(self.seperator!)
     }
     
-    func actionButtonClicked(sender: AnyObject?)
+    public func actionButtonClicked(sender: AnyObject?)
     {
         self.delegate?.menuItemCell?(cell: self, didActionButtonClicked: sender)
     }
     
-    required init(coder aDecoder: NSCoder)
+    required public init(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews()
+    override public func layoutSubviews()
     {
         super.layoutSubviews()
         self.menuItemTextLabel.sizeToFit()
@@ -177,10 +177,10 @@ class SCTreeMenuItemCell: UITableViewCell
     }
 }
 
-class SCTreeMenuView: UITableView, UITableViewDelegate, SCTreeMenuItemCellDelegate
+public class SCTreeMenuView: UITableView, UITableViewDelegate, SCTreeMenuItemCellDelegate
 {
-    weak var menuViewDelegate: SCTreeMenuViewDelegate?
-    var menuItem: SCTreeMenuItem {
+    public weak var menuViewDelegate: SCTreeMenuViewDelegate?
+    public var menuItem: SCTreeMenuItem {
         didSet {
             self.dataSource = self.menuItem
             var indexPath = self.menuItem.indexPathOfMenuItem(self.menuItem)
@@ -192,12 +192,12 @@ class SCTreeMenuView: UITableView, UITableViewDelegate, SCTreeMenuItemCellDelega
         }
     }
     
-    required init(coder aDecoder: NSCoder)
+    required public init(coder aDecoder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
     
-    required init(menuItem: SCTreeMenuItem)
+    required public init(menuItem: SCTreeMenuItem)
     {
         self.menuItem = menuItem
         super.init(frame: CGRectZero, style: .Plain)
@@ -207,7 +207,7 @@ class SCTreeMenuView: UITableView, UITableViewDelegate, SCTreeMenuItemCellDelega
         self.registerClass(SCTreeMenuItemCell.self, forCellReuseIdentifier: "SCTreeMenuItemCellIdentifier")
     }
     
-    func menuItemCell(#cell: SCTreeMenuItemCell, didActionButtonClicked sender: AnyObject?)
+    public func menuItemCell(#cell: SCTreeMenuItemCell, didActionButtonClicked sender: AnyObject?)
     {
         if let indexPath = self.indexPathForCell(cell) {
             var menuItem = self.menuItem.menuItemAtIndexPath(indexPath)
@@ -218,34 +218,34 @@ class SCTreeMenuView: UITableView, UITableViewDelegate, SCTreeMenuItemCellDelega
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         self.menuViewDelegate?.menuView?(menuView: self, didSelectRowAtIndexPath: indexPath)
     }
 }
 
-class SCTreeMenuViewController: UIViewController, SCTreeMenuViewDelegate
+public class SCTreeMenuViewController: UIViewController, SCTreeMenuViewDelegate
 {
-    var menuView: SCTreeMenuView?
-    var root: SCTreeMenuItem?
-    override func viewDidLoad()
+    public var menuView: SCTreeMenuView?
+    public var root: SCTreeMenuItem?
+    override public func viewDidLoad()
     {
         super.viewDidLoad()
         self.setupTree()
         self.setupMenuView()
     }
     
-    override func viewDidLayoutSubviews()
+    override public func viewDidLayoutSubviews()
     {
         super.viewDidLayoutSubviews()
         self.menuView?.frame = self.view.bounds
     }
 
-    func menuView(#menuView: SCTreeMenuView, didSelectRowAtIndexPath indexPath: NSIndexPath) {}
-    func setupTree() {}
+    public func menuView(#menuView: SCTreeMenuView, didSelectRowAtIndexPath indexPath: NSIndexPath) {}
+    public func setupTree() {}
     
-    func setupMenuView()
+    public func setupMenuView()
     {
         self.menuView = SCTreeMenuView(menuItem: (self.root!))
         self.menuView?.frame = self.view.bounds

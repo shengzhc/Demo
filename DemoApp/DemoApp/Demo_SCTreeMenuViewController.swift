@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SCTreeMenu
 
 struct Demo_SCTreeMenuItemActionImage
 {
@@ -243,8 +244,10 @@ class Demo_SCTreeMenuViewController: SCTreeMenuViewController
     
     override func menuView(#menuView: SCTreeMenuView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        var menuItem = self.root?.menuItemAtIndexPath(indexPath) as Demo_SCTreeMenuItem
-        self.title = menuItem.text
+        var menuItem = menuView.menuItem.menuItemAtIndexPath(indexPath) as? Demo_SCTreeMenuItem
+        if menuItem != nil {
+            self.title = menuItem!.text
+        }
     }
 
 }

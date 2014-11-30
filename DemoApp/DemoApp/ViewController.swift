@@ -23,7 +23,7 @@ class ViewController: UITableViewController
             }
         }
     }
-    
+        
     let cellIdentifier = "defaultCellIdentifier"
 
     override func viewDidLoad()
