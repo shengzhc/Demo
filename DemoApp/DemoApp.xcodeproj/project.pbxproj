@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C3744CE1A2A9A6900149CAC /* ColorPalate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */; };
+		9C3744D01A2A9ADE00149CAC /* SCTreeMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3744CF1A2A9ADE00149CAC /* SCTreeMenuViewController.swift */; };
+		9C3744D41A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */; };
 		9C515CA71A2692A3003C0896 /* menu.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C515CA61A2692A3003C0896 /* menu.json */; };
 		9C6E7DF21A24CEB500FC074E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF11A24CEB500FC074E /* AppDelegate.swift */; };
 		9C6E7DF41A24CEB500FC074E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF31A24CEB500FC074E /* ViewController.swift */; };
@@ -14,7 +17,6 @@
 		9C6E7DF91A24CEB500FC074E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF81A24CEB500FC074E /* Images.xcassets */; };
 		9C6E7DFC1A24CEB500FC074E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C6E7DFA1A24CEB500FC074E /* LaunchScreen.xib */; };
 		9C6E7E081A24CEB500FC074E /* DemoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7E071A24CEB500FC074E /* DemoAppTests.swift */; };
-		9CACF7251A25B64700286ECB /* SCTreeMenuSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CACF7241A25B64700286ECB /* SCTreeMenuSelector.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +30,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalate.swift; sourceTree = "<group>"; };
+		9C3744CF1A2A9ADE00149CAC /* SCTreeMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTreeMenuViewController.swift; sourceTree = "<group>"; };
+		9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo_SCTreeMenuViewController.swift; sourceTree = "<group>"; };
 		9C515CA61A2692A3003C0896 /* menu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = menu.json; sourceTree = "<group>"; };
 		9C6E7DEC1A24CEB500FC074E /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C6E7DF01A24CEB500FC074E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -39,7 +44,6 @@
 		9C6E7E011A24CEB500FC074E /* DemoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C6E7E061A24CEB500FC074E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C6E7E071A24CEB500FC074E /* DemoAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppTests.swift; sourceTree = "<group>"; };
-		9CACF7241A25B64700286ECB /* SCTreeMenuSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCTreeMenuSelector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,14 +85,16 @@
 		9C6E7DEE1A24CEB500FC074E /* DemoApp */ = {
 			isa = PBXGroup;
 			children = (
+				9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */,
 				9C6E7DF11A24CEB500FC074E /* AppDelegate.swift */,
 				9C6E7DF31A24CEB500FC074E /* ViewController.swift */,
 				9C6E7DF51A24CEB500FC074E /* Main.storyboard */,
 				9C6E7DF81A24CEB500FC074E /* Images.xcassets */,
 				9C6E7DFA1A24CEB500FC074E /* LaunchScreen.xib */,
 				9C6E7DEF1A24CEB500FC074E /* Supporting Files */,
-				9CACF7241A25B64700286ECB /* SCTreeMenuSelector.swift */,
 				9C515CA61A2692A3003C0896 /* menu.json */,
+				9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */,
+				9C3744CF1A2A9ADE00149CAC /* SCTreeMenuViewController.swift */,
 			);
 			path = DemoApp;
 			sourceTree = "<group>";
@@ -219,8 +225,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C3744D01A2A9ADE00149CAC /* SCTreeMenuViewController.swift in Sources */,
 				9C6E7DF41A24CEB500FC074E /* ViewController.swift in Sources */,
-				9CACF7251A25B64700286ECB /* SCTreeMenuSelector.swift in Sources */,
+				9C3744CE1A2A9A6900149CAC /* ColorPalate.swift in Sources */,
+				9C3744D41A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift in Sources */,
 				9C6E7DF21A24CEB500FC074E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

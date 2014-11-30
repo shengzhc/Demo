@@ -34,10 +34,10 @@
             </objects>
             <point key="canvasLocation" x="1165" y="511"/>
         </scene>
-        <!--Tree Menu Selector-->
+        <!--DemoSC Tree Menu View Controller-->
         <scene sceneID="zb6-SC-5AW">
             <objects>
-                <viewController id="Fah-sP-ABe" customClass="SCTree_MenuSelector" customModule="DemoApp" sceneMemberID="viewController">
+                <viewController id="Fah-sP-ABe" customClass="Demo_SCTreeMenuViewController" customModule="DemoApp" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UiJ-hk-FG8"/>
                         <viewControllerLayoutGuide type="bottom" id="by0-00-cty"/>
