@@ -14,6 +14,11 @@ import UIKit
     optional func menuItemCell(#cell: SCTreeMenuItemCell, didActionButtonClicked sender:AnyObject?)
 }
 
+@objc protocol SCTreeMenuViewDelegate : class
+{
+    optional func menuView(#menuView: SCTreeMenuView, didSelectRowAtIndexPath indexPath:NSIndexPath)
+}
+
 class SCTreeMenuItem : NSObject, UITableViewDataSource
 {
     weak var parent: SCTreeMenuItem?
@@ -132,7 +137,7 @@ class SCTreeMenuItemCell: UITableViewCell
     var menuItemTextLabel: UILabel
     var menuItemActionButton: UIButton
     var seperator: UIView?
-    var delegate: SCTreeMenuItemCellDelegate?
+    weak var delegate: SCTreeMenuItemCellDelegate?
     var menuItem: SCTreeMenuItem?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?)
@@ -153,7 +158,7 @@ class SCTreeMenuItemCell: UITableViewCell
     
     func actionButtonClicked(sender: AnyObject?)
     {
-        self.delegate?.menuItemCell!(cell: self, didActionButtonClicked: sender)
+        self.delegate?.menuItemCell?(cell: self, didActionButtonClicked: sender)
     }
     
     required init(coder aDecoder: NSCoder)
@@ -174,6 +179,7 @@ class SCTreeMenuItemCell: UITableViewCell
 
 class SCTreeMenuView: UITableView, UITableViewDelegate, SCTreeMenuItemCellDelegate
 {
+    weak var menuViewDelegate: SCTreeMenuViewDelegate?
     var menuItem: SCTreeMenuItem {
         didSet {
             self.dataSource = self.menuItem
@@ -211,15 +217,15 @@ class SCTreeMenuView: UITableView, UITableViewDelegate, SCTreeMenuItemCellDelega
             self.menuItem = menuItem
         }
     }
-    
+
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        var menuItem = self.menuItem.menuItemAtIndexPath(indexPath)
+        self.menuViewDelegate?.menuView?(menuView: self, didSelectRowAtIndexPath: indexPath)
     }
 }
 
-class SCTreeMenuViewController: UIViewController
+class SCTreeMenuViewController: UIViewController, SCTreeMenuViewDelegate
 {
     var menuView: SCTreeMenuView?
     var root: SCTreeMenuItem?
@@ -230,10 +236,21 @@ class SCTreeMenuViewController: UIViewController
         self.setupMenuView()
     }
     
+    override func viewDidLayoutSubviews()
+    {
+        super.viewDidLayoutSubviews()
+        self.menuView?.frame = self.view.bounds
+    }
+
+    func menuView(#menuView: SCTreeMenuView, didSelectRowAtIndexPath indexPath: NSIndexPath) {}
     func setupTree() {}
-    func setupMenuView() {
+    
+    func setupMenuView()
+    {
         self.menuView = SCTreeMenuView(menuItem: (self.root!))
         self.menuView?.frame = self.view.bounds
         self.view.addSubview(self.menuView!)
+        self.menuView?.menuViewDelegate = self
     }
+    
 }

@@ -124,6 +124,7 @@ class Demo_SCTreeMenuItemCell: SCTreeMenuItemCell
     override init(style: UITableViewCellStyle, reuseIdentifier: String?)
     {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.menuItemActionButton.setTitle(nil, forState: .Normal)
         self.menuItemActionButton.setBackgroundImage(Demo_SCTreeMenuItemActionImage.defaultIcon, forState: .Normal)
         self.seperator?.backgroundColor = ColorPalate.LightFuji.color.colorWithAlphaComponent(0.8)
         self.contentView.addSubview(self.seperator!)
@@ -237,5 +238,13 @@ class Demo_SCTreeMenuViewController: SCTreeMenuViewController
         self.menuView = Demo_SCTreeMenuView(menuItem: self.root!)
         self.menuView?.frame = self.view.bounds
         self.view.addSubview(self.menuView!)
+        self.menuView?.menuViewDelegate = self
     }
+    
+    override func menuView(#menuView: SCTreeMenuView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        var menuItem = self.root?.menuItemAtIndexPath(indexPath) as Demo_SCTreeMenuItem
+        self.title = menuItem.text
+    }
+
 }
