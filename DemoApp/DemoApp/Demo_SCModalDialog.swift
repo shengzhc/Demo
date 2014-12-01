@@ -30,7 +30,7 @@ class Demo_SCModalDialogPresentationController: SCModalDialogPresentationControl
     override func setupCloseButton()
     {
         self.closeButton.setTitle(nil, forState: .Normal)
-        self.closeButton.setBackgroundImage(DemoIcons.rotateIcon, forState: .Normal)
+        self.closeButton.setBackgroundImage(DemoIcons.closeIcon, forState: .Normal)
         self.closeButton.sizeToFit()
     }
     
