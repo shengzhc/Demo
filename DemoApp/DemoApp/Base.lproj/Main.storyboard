@@ -28,6 +28,7 @@
                     <navigationItem key="navigationItem" id="sv2-kD-yyJ"/>
                     <connections>
                         <segue destination="Fah-sP-ABe" kind="show" identifier="SCTreeMenuSelectorIdentifier" id="Dfr-B0-F4T"/>
+                        <segue destination="OkD-dG-oMd" kind="show" identifier="SCModalDialogIdentifier" id="zX7-T0-0WK"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvn-VL-HX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -50,7 +51,40 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wrf-j9-rAg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1967" y="511"/>
+            <point key="canvasLocation" x="1905" y="394"/>
+        </scene>
+        <!--Demo Modal Dialog View Controller-->
+        <scene sceneID="sUV-uf-yWD">
+            <objects>
+                <viewController id="OkD-dG-oMd" customClass="Demo_ModalDialogViewController" customModule="DemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1yD-hf-f14"/>
+                        <viewControllerLayoutGuide type="bottom" id="joI-hO-Cdj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Va0-fH-LRS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LX3-ZP-YO5">
+                                <rect key="frame" x="270" y="250" width="46" height="30"/>
+                                <state key="normal" title="Hit Me">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="hitButtonClicked:" destination="OkD-dG-oMd" eventType="touchUpInside" id="ijs-IV-a8i"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="LX3-ZP-YO5" secondAttribute="centerX" constant="7" id="hLW-yH-ydt"/>
+                            <constraint firstAttribute="centerY" secondItem="LX3-ZP-YO5" secondAttribute="centerY" constant="35" id="zw4-J9-pqa"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E5F-MD-beq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1915" y="1061"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PBc-Rj-Vql">

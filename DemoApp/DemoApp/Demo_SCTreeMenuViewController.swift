@@ -10,65 +10,6 @@ import Foundation
 import UIKit
 import SCTreeMenu
 
-struct Demo_SCTreeMenuItemActionImage
-{
-    static var defaultIcon: UIImage = ({
-        var size = CGSizeMake(24, 24)
-        var rect = CGRectInset(CGRectMake(0, 0, size.width, size.height), 0.5, 0.5)
-        var center = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect))
-        let length: CGFloat = rect.width * 0.25
-        var bottomCenter = CGPointMake(CGRectGetMidX(rect), 0)
-        var topCenter = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect))
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 2.0)
-        var context = UIGraphicsGetCurrentContext()
-        var circle = CGPathCreateWithRoundedRect(rect, rect.size.width/2.0, rect.size.height/2.0, nil)
-        var cross = CGPathCreateMutable()
-        CGPathMoveToPoint(cross, nil, center.x, center.y-length)
-        CGPathAddLineToPoint(cross, nil, center.x, center.y+length)
-        CGPathMoveToPoint(cross, nil, center.x-length, center.y)
-        CGPathAddLineToPoint(cross, nil, center.x+length, center.y)
-        
-        CGContextSetStrokeColorWithColor(context, ColorPalate.Bamboo.color.CGColor)
-        CGContextAddPath(context, circle)
-        CGContextAddPath(context, cross)
-        CGContextDrawPath(context, kCGPathStroke)
-        let ret = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return ret
-    })()
-    
-    static var rotateIcon: UIImage = ({
-        var size = CGSizeMake(24, 24)
-        var rect = CGRectInset(CGRectMake(0, 0, size.width, size.height), 0.5, 0.5)
-        var center = CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect))
-        let length: CGFloat = rect.width * 0.25
-        var bottomCenter = CGPointMake(CGRectGetMidX(rect), 0)
-        var topCenter = CGPointMake(CGRectGetMidX(rect), CGRectGetMaxY(rect))
-        UIGraphicsBeginImageContextWithOptions(size, false, 2.0)
-        var context = UIGraphicsGetCurrentContext()
-        var circle = CGPathCreateWithRoundedRect(rect, rect.size.width/2.0, rect.size.height/2.0, nil)
-        var cross = CGPathCreateMutable()
-        CGPathMoveToPoint(cross, nil, center.x, center.y-length)
-        CGPathAddLineToPoint(cross, nil, center.x, center.y+length)
-        CGPathMoveToPoint(cross, nil, center.x-length, center.y)
-        CGPathAddLineToPoint(cross, nil, center.x+length, center.y)
-        
-        
-        CGContextSetStrokeColorWithColor(context, ColorPalate.Bamboo.color.CGColor)
-        CGContextTranslateCTM(context, center.x, center.y)
-        CGContextRotateCTM(context, CGFloat(M_PI_4))
-        CGContextTranslateCTM(context, -center.x, -center.y)
-        CGContextAddPath(context, circle)
-        CGContextAddPath(context, cross)
-        CGContextTranslateCTM(context, -size.width/2.0, -size.height/2.0)
-        CGContextDrawPath(context, kCGPathStroke)
-        let ret = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return ret
-    })()
-}
-
 enum Demo_SCTreeMenuCellIdentifier: String
 {
     case DemoSCMenuItemCellIdentifier = "DemoSCMenuItemCellIdentifier", DemoSCSubMenuItemCellIdentifier = "DemoSCSubMenuItemCellIdentifier"
@@ -114,9 +55,9 @@ class Demo_SCTreeMenuItemCell: SCTreeMenuItemCell
             self.menuItemTextLabel.text = self.menuItem?.text
             if let menuItem = self.menuItem {
                 if menuItem.isCollapsed {
-                    self.menuItemActionButton.setBackgroundImage(Demo_SCTreeMenuItemActionImage.defaultIcon, forState: UIControlState.Normal)
+                    self.menuItemActionButton.setBackgroundImage(DemoIcons.defaultIcon, forState: UIControlState.Normal)
                 } else {
-                    self.menuItemActionButton.setBackgroundImage(Demo_SCTreeMenuItemActionImage.rotateIcon, forState: UIControlState.Normal)
+                    self.menuItemActionButton.setBackgroundImage(DemoIcons.rotateIcon, forState: UIControlState.Normal)
                 }
             }
         }
@@ -126,7 +67,7 @@ class Demo_SCTreeMenuItemCell: SCTreeMenuItemCell
     {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.menuItemActionButton.setTitle(nil, forState: .Normal)
-        self.menuItemActionButton.setBackgroundImage(Demo_SCTreeMenuItemActionImage.defaultIcon, forState: .Normal)
+        self.menuItemActionButton.setBackgroundImage(DemoIcons.defaultIcon, forState: .Normal)
         self.seperator?.backgroundColor = ColorPalate.LightFuji.color.colorWithAlphaComponent(0.8)
         self.contentView.addSubview(self.seperator!)
     }
