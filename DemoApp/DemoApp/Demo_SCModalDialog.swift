@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class Demo_ModalDialogViewController: UIViewController
+class Demo_ModalDialogViewController: UIViewController, SCModalDialogPresentationControllerDelegate
 {
     lazy var customTransitioningDelegate: Demo_SCModalDialogTransitioningDelegate = {
         var delegation = Demo_SCModalDialogTransitioningDelegate()
@@ -18,10 +18,23 @@ class Demo_ModalDialogViewController: UIViewController
     
     @IBAction func hitButtonClicked(sender: AnyObject)
     {
-        var controller = SCModalDialogViewController()
+        var controller = UIViewController()
+        controller.view.backgroundColor = UIColor.whiteColor()
+        controller.view.layer.cornerRadius = 5.0
+        controller.view.layer.masksToBounds = true
         controller.transitioningDelegate = self.customTransitioningDelegate
         controller.modalPresentationStyle = .Custom
         self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    func didDismissEnd(sender: AnyObject?)
+    {
+        println(__FUNCTION__)
+    }
+    
+    func didPresentationEnd(sender: AnyObject?)
+    {
+        println(__FUNCTION__)
     }
 }
 
@@ -44,6 +57,12 @@ class Demo_SCModalDialogTransitioningDelegate: SCModalDialogTransitioningDelegat
 {
     override func presentationControllerForPresentedViewController(presented: UIViewController, presentingViewController presenting: UIViewController!, sourceViewController source: UIViewController) -> UIPresentationController?
     {
-        return Demo_SCModalDialogPresentationController(presentedViewController: presented, presentingViewController: presenting)
+        var presentationController = Demo_SCModalDialogPresentationController(presentedViewController: presented, presentingViewController: presenting)
+        if let delegation = presenting as? SCModalDialogPresentationControllerDelegate {
+            presentationController.presentationControllerDelegate = delegation
+        } else if let delegation = source as? SCModalDialogPresentationControllerDelegate {
+            presentationController.presentationControllerDelegate = delegation
+        }
+        return presentationController
     }
 }

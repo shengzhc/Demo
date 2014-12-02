@@ -9,19 +9,15 @@
 import Foundation
 import UIKit
 
-public class SCModalDialogViewController: UIViewController
+@objc public protocol SCModalDialogPresentationControllerDelegate: class
 {
-    public override func viewDidLoad()
-    {
-        super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
-        self.view.layer.cornerRadius = 5.0
-        self.view.layer.masksToBounds = true
-    }
+    optional func didPresentationEnd(sender: AnyObject?)
+    optional func didDismissEnd(sender: AnyObject?)
 }
 
 public class SCModalDialogPresentationController: UIPresentationController
 {
+    public weak var presentationControllerDelegate: SCModalDialogPresentationControllerDelegate?
     lazy var dimmingView: UIView = {
         let view = UIView(frame: self.containerView.bounds)
         view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
@@ -72,6 +68,8 @@ public class SCModalDialogPresentationController: UIPresentationController
         UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: -5, options: .CurveLinear, animations: { () -> Void in
             self.closeButton.transform = CGAffineTransformIdentity
         }, completion: nil)
+        
+        self.presentationControllerDelegate?.didPresentationEnd?(nil)
     }
     
     public override func dismissalTransitionWillBegin()
@@ -95,6 +93,7 @@ public class SCModalDialogPresentationController: UIPresentationController
         if completed {
             self.dimmingView.removeFromSuperview()
             self.closeButton.removeFromSuperview()
+            self.presentationControllerDelegate?.didDismissEnd?(nil)
         }
     }
 }
