@@ -53,7 +53,7 @@ public class SCModalDialogPresentationController: UIPresentationController
         if let transitionCoordinator = self.presentingViewController.transitionCoordinator() {
             transitionCoordinator.animateAlongsideTransition({(context: UIViewControllerTransitionCoordinatorContext!) -> Void in
                 self.dimmingView.alpha  = 1.0
-                }, completion:nil)
+            }, completion:nil)
         }
     }
     
@@ -61,15 +61,31 @@ public class SCModalDialogPresentationController: UIPresentationController
     {
         self.setupCloseButton()
         self.closeButton.center = self.presentedView().frame.origin
+        self.closeButton.alpha = 0.0
         self.containerView.addSubview(self.closeButton)
+        let duration = 0.5
+        self.closeButton.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.3, 0.3)
+        UIView.animateWithDuration(duration/4.0, delay: 0, options: .CurveLinear, animations: { () -> Void in
+            self.closeButton.alpha = 1.0
+        }, completion: nil)
+        
+        UIView.animateWithDuration(duration, delay: 0, usingSpringWithDamping: 0.55, initialSpringVelocity: -5, options: .CurveLinear, animations: { () -> Void in
+            self.closeButton.transform = CGAffineTransformIdentity
+        }, completion: nil)
     }
     
     public override func dismissalTransitionWillBegin()
     {
-        self.closeButton.removeFromSuperview()
         if let transitionCoordinator = self.presentingViewController.transitionCoordinator() {
             transitionCoordinator.animateAlongsideTransition({ (context: UIViewControllerTransitionCoordinatorContext!) -> Void in
-                self.dimmingView.alpha = 0.0
+                var duration = context.transitionDuration()
+                UIView.animateWithDuration(duration * 0.75, delay: duration * 0.25, options: .CurveLinear, animations: { () -> Void in
+                    self.dimmingView.alpha = 0.0
+                }, completion: nil)
+
+                UIView.animateWithDuration(duration * 0.1, delay: 0, options: .CurveLinear, animations: { () -> Void in
+                    self.closeButton.alpha = 0.0
+                }, completion: nil)
             }, completion: nil)
         }
     }
@@ -78,6 +94,7 @@ public class SCModalDialogPresentationController: UIPresentationController
     {
         if completed {
             self.dimmingView.removeFromSuperview()
+            self.closeButton.removeFromSuperview()
         }
     }
 }
