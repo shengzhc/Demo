@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:SCModalDialog/SCModalDialog.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:SCTreeMenu/SCTreeMenu.xcodeproj">
    </FileRef>
    <FileRef

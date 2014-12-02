@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SCModalDialog
 
 class Demo_ModalDialogViewController: UIViewController, SCModalDialogPresentationControllerDelegate
 {

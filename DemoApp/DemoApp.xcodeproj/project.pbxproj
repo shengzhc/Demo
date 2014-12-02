@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		9C20B4321A2AFECC0068EC0B /* SCTreeMenu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C20B4311A2AFECC0068EC0B /* SCTreeMenu.framework */; };
 		9C3247781A2C2D0000018C4B /* Demo_SCModalDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3247771A2C2D0000018C4B /* Demo_SCModalDialog.swift */; };
+		9C3553BE1A2D3DAC00F2CD71 /* SCModalDialog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3553BD1A2D3DAC00F2CD71 /* SCModalDialog.framework */; };
 		9C3744CE1A2A9A6900149CAC /* ColorPalate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */; };
 		9C3744D41A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */; };
-		9C48B14D1A2B8B6B00D76FB6 /* SCModalDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C48B14C1A2B8B6B00D76FB6 /* SCModalDialog.swift */; };
 		9C515CA71A2692A3003C0896 /* menu.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C515CA61A2692A3003C0896 /* menu.json */; };
 		9C59BDD51A2C4F4600D813D3 /* DemoIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C59BDD41A2C4F4600D813D3 /* DemoIcons.swift */; };
 		9C6E7DF21A24CEB500FC074E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF11A24CEB500FC074E /* AppDelegate.swift */; };
@@ -47,9 +47,9 @@
 /* Begin PBXFileReference section */
 		9C20B4311A2AFECC0068EC0B /* SCTreeMenu.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SCTreeMenu.framework; path = "../../../Library/Developer/Xcode/DerivedData/Demo-cnpqioordfruzuhgnwspdrkzdjou/Build/Products/Debug-iphoneos/SCTreeMenu.framework"; sourceTree = "<group>"; };
 		9C3247771A2C2D0000018C4B /* Demo_SCModalDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo_SCModalDialog.swift; sourceTree = "<group>"; };
+		9C3553BD1A2D3DAC00F2CD71 /* SCModalDialog.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SCModalDialog.framework; path = "../../../Library/Developer/Xcode/DerivedData/Demo-cnpqioordfruzuhgnwspdrkzdjou/Build/Products/Debug-iphoneos/SCModalDialog.framework"; sourceTree = "<group>"; };
 		9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalate.swift; sourceTree = "<group>"; };
 		9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo_SCTreeMenuViewController.swift; sourceTree = "<group>"; };
-		9C48B14C1A2B8B6B00D76FB6 /* SCModalDialog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCModalDialog.swift; sourceTree = "<group>"; };
 		9C515CA61A2692A3003C0896 /* menu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = menu.json; sourceTree = "<group>"; };
 		9C59BDD41A2C4F4600D813D3 /* DemoIcons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoIcons.swift; sourceTree = "<group>"; };
 		9C6E7DEC1A24CEB500FC074E /* DemoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C3553BE1A2D3DAC00F2CD71 /* SCModalDialog.framework in Frameworks */,
 				9C20B4321A2AFECC0068EC0B /* SCTreeMenu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -86,6 +87,7 @@
 		9C6E7DE31A24CEB500FC074E = {
 			isa = PBXGroup;
 			children = (
+				9C3553BD1A2D3DAC00F2CD71 /* SCModalDialog.framework */,
 				9C20B4311A2AFECC0068EC0B /* SCTreeMenu.framework */,
 				9C6E7DEE1A24CEB500FC074E /* DemoApp */,
 				9C6E7E041A24CEB500FC074E /* DemoAppTests */,
@@ -115,7 +117,6 @@
 				9C6E7DEF1A24CEB500FC074E /* Supporting Files */,
 				9C515CA61A2692A3003C0896 /* menu.json */,
 				9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */,
-				9C48B14C1A2B8B6B00D76FB6 /* SCModalDialog.swift */,
 				9C59BDD41A2C4F4600D813D3 /* DemoIcons.swift */,
 			);
 			path = DemoApp;
@@ -249,7 +250,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C6E7DF41A24CEB500FC074E /* ViewController.swift in Sources */,
-				9C48B14D1A2B8B6B00D76FB6 /* SCModalDialog.swift in Sources */,
 				9C3247781A2C2D0000018C4B /* Demo_SCModalDialog.swift in Sources */,
 				9C59BDD51A2C4F4600D813D3 /* DemoIcons.swift in Sources */,
 				9C3744CE1A2A9A6900149CAC /* ColorPalate.swift in Sources */,
