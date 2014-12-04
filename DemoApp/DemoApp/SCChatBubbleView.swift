@@ -57,6 +57,7 @@ public class SCChatBubbleViewController: UIViewController
         case .Right:
             point = CGPointMake(self.bubbleView.frame.size.width - self.bubbleView.marginEdgeInsets.right, point.y - self.bubbleView.frame.origin.y + self.bubbleView.marginEdgeInsets.top)
         }
+        
         return point
     }
     
@@ -139,8 +140,6 @@ public class SCChatBubbleView: UIView
         size.width += (self.paddingEdgeInsets.left + self.paddingEdgeInsets.right + self.marginEdgeInsets.left + self.marginEdgeInsets.right)
         size.height += (self.paddingEdgeInsets.top + self.paddingEdgeInsets.bottom + self.marginEdgeInsets.top + self.marginEdgeInsets.bottom)
         self.frame.size = size
-        
-        self.backgroundColor = UIColor.redColor()
     }
     
     public var boxShapeLayer: CAShapeLayer {
@@ -195,9 +194,10 @@ public class SCChatBubbleView: UIView
             point2.x = self.arrowPoint.x + self.arrowHeight + 1
             point2.y = point0.y + self.arrowWidth * 2.0
         case .Right:
-            path.moveToPoint(CGPointMake(self.arrowPoint.x - self.arrowHeight - 1, max(self.arrowPoint.y - self.arrowWidth, self.marginEdgeInsets.bottom)))
-            path.addLineToPoint(CGPointMake(self.arrowPoint.x, arrowPoint.y))
-            path.addLineToPoint(CGPointMake(self.arrowPoint.x + self.arrowHeight - 1, min(self.arrowPoint.y + self.arrowWidth, self.frame.size.height - self.marginEdgeInsets.top)))
+            point0.x = self.arrowPoint.x - self.arrowHeight - 1
+            point0.y = min(max(self.arrowPoint.y - self.arrowWidth, self.marginEdgeInsets.top + self.cornerPadding), self.frame.size.height - self.marginEdgeInsets.bottom - self.cornerPadding - self.arrowWidth * 2.0)
+            point2.x = self.arrowPoint.x - self.arrowHeight - 1
+            point2.y = point0.y + self.arrowWidth * 2.0
         }
         
         path.lineCapStyle = kCGLineCapRound
@@ -230,7 +230,7 @@ public class SCChatBubbleView: UIView
         case .Left:
             boxFrame = CGRectMake(self.marginEdgeInsets.left + self.arrowHeight, self.marginEdgeInsets.top, self.bounds.size.width - self.marginEdgeInsets.left - self.marginEdgeInsets.right - self.arrowHeight, self.bounds.size.height - self.marginEdgeInsets.top - self.marginEdgeInsets.bottom)
         case .Right:
-            boxFrame = CGRectMake(self.marginEdgeInsets.left, self.marginEdgeInsets.top, self.bounds.size.width - self.marginEdgeInsets.left - self.marginEdgeInsets.right, self.bounds.size.height - self.marginEdgeInsets.top - self.marginEdgeInsets.bottom - self.arrowHeight)
+            boxFrame = CGRectMake(self.marginEdgeInsets.left, self.marginEdgeInsets.top, self.bounds.size.width - self.marginEdgeInsets.left - self.marginEdgeInsets.right - self.arrowHeight, self.bounds.size.height - self.marginEdgeInsets.top - self.marginEdgeInsets.bottom)
         }
         self.boxShapeLayer.frame = boxFrame
         self.contentView.frame = UIEdgeInsetsInsetRect(boxFrame, self.paddingEdgeInsets)
