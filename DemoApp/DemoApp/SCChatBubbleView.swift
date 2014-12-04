@@ -10,13 +10,15 @@ import UIKit
 
 public class SCChatBubbleViewController: UIViewController
 {
+    public var maxWidth: CGFloat = 100
+    
     public lazy var bubbleView: SCChatBubbleView = {
         var contentView = UIView(frame: CGRectMake(0, 0, 100, 60))
         contentView.backgroundColor = UIColor.redColor()
         return SCChatBubbleView(contentView: contentView)
     }()
     
-    public var blockMarginEdgeInsets = UIEdgeInsetsMake(10, 10, 10, 10)
+    public var blockMarginEdgeInsets = UIEdgeInsetsMake(150, 10, 100, 10)
     
     public override func viewDidLoad()
     {
@@ -30,9 +32,15 @@ public class SCChatBubbleViewController: UIViewController
     {
         self.bubbleView.hidden = false
         var origin = self.bubbleView.frame.origin
-        var size = self.bubbleView.frame.size
-        origin.x = max(self.blockMarginEdgeInsets.left, point.x - self.bubbleView.bounds.width/2.0)
-        origin.x = min(self.view.bounds.size.width - self.blockMarginEdgeInsets.right - self.bubbleView.bounds.size.width, origin.x)
+        switch direction {
+        case .Up, .Down:
+            origin.x = max(self.blockMarginEdgeInsets.left, point.x - self.bubbleView.bounds.width/2.0)
+            origin.x = min(self.view.bounds.size.width - self.blockMarginEdgeInsets.right - self.bubbleView.bounds.size.width, origin.x)
+        case .Left, .Right:
+            origin.y = max(self.blockMarginEdgeInsets.top, point.y - self.bubbleView.bounds.height/2.0)
+            origin.y = min(self.view.bounds.size.height - self.blockMarginEdgeInsets.bottom - self.bubbleView.bounds.size.height, origin.y)
+        }
+
         self.bubbleView.frame.origin = origin
         self.bubbleView.setArrowPoint(arrowPoint: self.arrowPointAtPoint(point, direction: direction), direction: direction)
     }
@@ -45,15 +53,17 @@ public class SCChatBubbleViewController: UIViewController
         case .Down:
             point = CGPointMake(point.x - self.bubbleView.frame.origin.x + self.bubbleView.marginEdgeInsets.left, self.bubbleView.frame.size.height - self.bubbleView.marginEdgeInsets.bottom)
         case .Left:
-            point = CGPointMake(point.x - self.bubbleView.frame.origin.x + self.bubbleView.marginEdgeInsets.left, self.bubbleView.frame.size.height - self.bubbleView.marginEdgeInsets.bottom)
+            point = CGPointMake(self.bubbleView.marginEdgeInsets.left, point.y - self.bubbleView.frame.origin.y + self.bubbleView.marginEdgeInsets.top)
         case .Right:
-            point = CGPointMake(point.x - self.bubbleView.frame.origin.x + self.bubbleView.marginEdgeInsets.left, self.bubbleView.frame.size.height - self.bubbleView.marginEdgeInsets.bottom)
+            point = CGPointMake(self.bubbleView.frame.size.width - self.bubbleView.marginEdgeInsets.right, point.y - self.bubbleView.frame.origin.y + self.bubbleView.marginEdgeInsets.top)
         }
         return point
     }
     
     public func setContentView(contentView: UIView)
     {
+        var size = contentView.sizeThatFits(CGSizeMake(self.maxWidth, 9999))
+        contentView.frame.size = CGSizeMake(self.maxWidth, size.height)
         self.bubbleView.contentView = contentView
     }
 }
@@ -68,6 +78,8 @@ public class SCChatBubbleView: UIView
     
     private var _boxShapeLayer: CAShapeLayer?
     private var _arrowShapeLayer: CAShapeLayer?
+    
+    public var lockHorizontal = false
     
     public var arrowDirection: ArrowDirection = .Down
     public var arrowWidth: CGFloat = 10.0
@@ -89,7 +101,14 @@ public class SCChatBubbleView: UIView
             self.contentView.layer.zPosition = 999
             var size = self.contentView.bounds.size
             size.width += (self.paddingEdgeInsets.left + self.paddingEdgeInsets.right + self.marginEdgeInsets.left + self.marginEdgeInsets.right)
-            size.height += (self.paddingEdgeInsets.top + self.paddingEdgeInsets.bottom + self.marginEdgeInsets.top + self.marginEdgeInsets.bottom + self.arrowHeight)
+            size.height += (self.paddingEdgeInsets.top + self.paddingEdgeInsets.bottom + self.marginEdgeInsets.top + self.marginEdgeInsets.bottom)
+            switch self.arrowDirection {
+            case .Up, .Down:
+                size.height += self.arrowHeight
+            case .Left, .Right:
+                size.width += self.arrowHeight
+            }
+            
             self.frame.size = size
             self.addSubview(self.contentView)
         }
@@ -120,6 +139,8 @@ public class SCChatBubbleView: UIView
         size.width += (self.paddingEdgeInsets.left + self.paddingEdgeInsets.right + self.marginEdgeInsets.left + self.marginEdgeInsets.right)
         size.height += (self.paddingEdgeInsets.top + self.paddingEdgeInsets.bottom + self.marginEdgeInsets.top + self.marginEdgeInsets.bottom)
         self.frame.size = size
+        
+        self.backgroundColor = UIColor.redColor()
     }
     
     public var boxShapeLayer: CAShapeLayer {
@@ -169,9 +190,10 @@ public class SCChatBubbleView: UIView
             point2.x = point0.x + self.arrowWidth * 2.0
             point2.y = self.arrowPoint.y - self.arrowHeight - 1
         case .Left:
-            path.moveToPoint(CGPointMake(self.arrowPoint.x + self.arrowHeight + 1, max(self.arrowPoint.y - self.arrowWidth, self.marginEdgeInsets.bottom)))
-            path.addLineToPoint(CGPointMake(self.arrowPoint.x, self.arrowPoint.y))
-            path.addLineToPoint(CGPointMake(self.arrowPoint.x + self.arrowHeight + 1, min(self.arrowPoint.y + self.arrowWidth, self.frame.size.height - self.marginEdgeInsets.top)))
+            point0.x = self.arrowPoint.x + self.arrowHeight + 1
+            point0.y = min(max(self.arrowPoint.y - self.arrowWidth, self.marginEdgeInsets.top + self.cornerPadding), self.frame.size.height - self.marginEdgeInsets.bottom - self.cornerPadding - self.arrowWidth * 2.0)
+            point2.x = self.arrowPoint.x + self.arrowHeight + 1
+            point2.y = point0.y + self.arrowWidth * 2.0
         case .Right:
             path.moveToPoint(CGPointMake(self.arrowPoint.x - self.arrowHeight - 1, max(self.arrowPoint.y - self.arrowWidth, self.marginEdgeInsets.bottom)))
             path.addLineToPoint(CGPointMake(self.arrowPoint.x, arrowPoint.y))
@@ -188,18 +210,11 @@ public class SCChatBubbleView: UIView
     public func setArrowPoint(var #arrowPoint: CGPoint, direction: ArrowDirection)
     {
         switch direction {
-        case .Up:
+        case .Up, .Down:
             arrowPoint.x = min(max(self.marginEdgeInsets.left, arrowPoint.x), self.frame.size.width - self.marginEdgeInsets.right)
-        case .Down:
-            arrowPoint.x = min(max(self.marginEdgeInsets.left, arrowPoint.x), self.frame.size.width - self.marginEdgeInsets.right)
-        case .Left:
-            arrowPoint.x = min(max(self.marginEdgeInsets.left, arrowPoint.x), self.frame.size.width - self.marginEdgeInsets.right)
-        case .Right:
-            arrowPoint.x = min(max(self.marginEdgeInsets.left, arrowPoint.x), self.frame.size.width - self.marginEdgeInsets.right)
+        case .Left, .Right:
+            arrowPoint.y = min(max(self.marginEdgeInsets.top, arrowPoint.y), self.frame.size.height - self.marginEdgeInsets.bottom)
         }
-        
-        println(arrowPoint)
-        
         self.arrowPoint = arrowPoint;
         self.arrowDirection = direction
     }
@@ -213,7 +228,7 @@ public class SCChatBubbleView: UIView
         case .Down:
             boxFrame = CGRectMake(self.marginEdgeInsets.left, self.marginEdgeInsets.top, self.bounds.size.width - self.marginEdgeInsets.left - self.marginEdgeInsets.right, self.bounds.size.height - self.marginEdgeInsets.top - self.marginEdgeInsets.bottom - self.arrowHeight)
         case .Left:
-            boxFrame = CGRectMake(self.marginEdgeInsets.left, self.marginEdgeInsets.top, self.bounds.size.width - self.marginEdgeInsets.left - self.marginEdgeInsets.right, self.bounds.size.height - self.marginEdgeInsets.top - self.marginEdgeInsets.bottom - self.arrowHeight)
+            boxFrame = CGRectMake(self.marginEdgeInsets.left + self.arrowHeight, self.marginEdgeInsets.top, self.bounds.size.width - self.marginEdgeInsets.left - self.marginEdgeInsets.right - self.arrowHeight, self.bounds.size.height - self.marginEdgeInsets.top - self.marginEdgeInsets.bottom)
         case .Right:
             boxFrame = CGRectMake(self.marginEdgeInsets.left, self.marginEdgeInsets.top, self.bounds.size.width - self.marginEdgeInsets.left - self.marginEdgeInsets.right, self.bounds.size.height - self.marginEdgeInsets.top - self.marginEdgeInsets.bottom - self.arrowHeight)
         }

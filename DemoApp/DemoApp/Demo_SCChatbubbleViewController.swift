@@ -27,23 +27,35 @@ class Demo_SCChatbubbleViewController: SCChatBubbleViewController
         label.numberOfLines = 0
         label.textAlignment = NSTextAlignment.Center
         
-        if point.x > self.view.frame.size.width * 0.3 && point.x < self.view.frame.size.width * 0.7 {
-            label.text = "I am a very very very long string I am a very very very long string"
-        } else if point.x < self.view.frame.size.width * 0.3 {
-            label.text = "I am a short left string"
-        } else {
-            label.text = "I am a short right string"
+        switch direction {
+            
+        case .Up, .Down:
+            if point.x > self.view.frame.size.width * 0.3 && point.x < self.view.frame.size.width * 0.7 {
+                label.text = "I am a very very very long string I am a very very very long string"
+            } else if point.x < self.view.frame.size.width * 0.3 {
+                label.text = "I am a short left string"
+            } else {
+                label.text = "I am a short right string"
+            }
+        case .Left, .Right:
+            if point.y > self.view.frame.size.height * 0.3 && point.y < self.view.frame.size.height * 0.7 {
+                label.text = "I am a very very very long string I am a very very very long string"
+            } else if point.y < self.view.frame.size.height * 0.3 {
+                label.text = "I am a short top string"
+            } else {
+                label.text = "I am a short bottom string"
+            }
         }
-        var size = label.sizeThatFits(CGSizeMake(200, 100000))
-        label.frame.size = CGSizeMake(200, size.height)
-        self.setContentView(label)
         
+        self.setContentView(label)
         super.targetAtPoint(point, direction: direction)
         
-        var frame = self.bubbleView.frame
-        frame.origin.y = self.view.bounds.size.height/2.0 - self.bubbleView.frame.size.height
-        self.bubbleView.frame.origin.y = self.view.bounds.size.height/2.0 - self.bubbleView.frame.size.height
-        
+        switch self.bubbleView.arrowDirection {
+        case .Up, .Down:
+            self.bubbleView.frame.origin.y = self.view.bounds.size.height/2.0 - self.bubbleView.frame.size.height
+        case .Left, .Right:
+            self.bubbleView.frame.origin.x = self.view.bounds.size.width/2.0 - self.bubbleView.frame.size.width/2.0
+        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
