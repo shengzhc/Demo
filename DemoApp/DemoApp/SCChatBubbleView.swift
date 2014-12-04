@@ -10,7 +10,8 @@ import UIKit
 
 public class SCChatBubbleViewController: UIViewController
 {
-    public var maxWidth: CGFloat = 100
+    public var contentMaxWidth: CGFloat = 100
+    public var blockMarginEdgeInsets = UIEdgeInsetsMake(150, 10, 100, 10)
     
     public lazy var bubbleView: SCChatBubbleView = {
         var contentView = UIView(frame: CGRectMake(0, 0, 100, 60))
@@ -18,53 +19,92 @@ public class SCChatBubbleViewController: UIViewController
         return SCChatBubbleView(contentView: contentView)
     }()
     
-    public var blockMarginEdgeInsets = UIEdgeInsetsMake(150, 10, 100, 10)
+    public var arrowDirection: SCChatBubbleView.ArrowDirection {
+        set {self.bubbleView.arrowDirection = newValue}
+        get {return self.bubbleView.arrowDirection}
+    }
+
+    public var arrowWidth: CGFloat {
+        set {self.bubbleView.arrowWidth = newValue}
+        get {return self.bubbleView.arrowWidth}
+    }
     
-    public override func viewDidLoad()
+    public var arrowHeight: CGFloat {
+        set {self.bubbleView.arrowHeight = newValue}
+        get {return self.bubbleView.arrowHeight}
+    }
+    
+    public var marginEdgeInsets: UIEdgeInsets {
+        set {self.bubbleView.marginEdgeInsets = newValue}
+        get {return self.bubbleView.marginEdgeInsets}
+    }
+    
+    public var paddingEdgeInsets: UIEdgeInsets {
+        set {self.bubbleView.paddingEdgeInsets = newValue}
+        get {return self.bubbleView.paddingEdgeInsets}
+    }
+    
+    public var cornerPadding: CGFloat {
+        set {self.bubbleView.cornerPadding = newValue}
+        get {return self.bubbleView.cornerPadding}
+    }
+    
+    public var cornerRadius: CGFloat {
+        set {self.bubbleView.cornerRadius = newValue}
+        get {return self.bubbleView.cornerRadius}
+    }
+    
+    public var fillColor: UIColor {
+        set {self.bubbleView.fillColor = newValue}
+        get {return self.bubbleView.fillColor}
+    }
+    
+    public var strokeColor: UIColor {
+        set {self.bubbleView.strokeColor = newValue}
+        get {return self.bubbleView.strokeColor}
+    }
+
+    public override func loadView()
     {
-        super.viewDidLoad()
+        super.loadView()
         self.view.backgroundColor = UIColor.clearColor()
         self.bubbleView.hidden = true
         self.view.addSubview(self.bubbleView)
     }
-    
-    public func targetAtPoint(point: CGPoint, direction: SCChatBubbleView.ArrowDirection = .Down)
+
+    public func targetAtPoint(target: CGPoint)
     {
         self.bubbleView.hidden = false
         var origin = self.bubbleView.frame.origin
-        switch direction {
+        switch self.arrowDirection {
         case .Up, .Down:
-            origin.x = max(self.blockMarginEdgeInsets.left, point.x - self.bubbleView.bounds.width/2.0)
+            origin.x = max(self.blockMarginEdgeInsets.left, target.x - self.bubbleView.bounds.width/2.0)
             origin.x = min(self.view.bounds.size.width - self.blockMarginEdgeInsets.right - self.bubbleView.bounds.size.width, origin.x)
         case .Left, .Right:
-            origin.y = max(self.blockMarginEdgeInsets.top, point.y - self.bubbleView.bounds.height/2.0)
+            origin.y = max(self.blockMarginEdgeInsets.top, target.y - self.bubbleView.bounds.height/2.0)
             origin.y = min(self.view.bounds.size.height - self.blockMarginEdgeInsets.bottom - self.bubbleView.bounds.size.height, origin.y)
         }
-
         self.bubbleView.frame.origin = origin
-        self.bubbleView.setArrowPoint(arrowPoint: self.arrowPointAtPoint(point, direction: direction), direction: direction)
-    }
-    
-    public func arrowPointAtPoint(var point: CGPoint, direction: SCChatBubbleView.ArrowDirection) -> CGPoint
-    {
-        switch direction {
+
+        var arrowPoint = CGPointZero
+        switch self.arrowDirection {
         case .Up:
-            point = CGPointMake(point.x - self.bubbleView.frame.origin.x + self.bubbleView.marginEdgeInsets.left, self.bubbleView.marginEdgeInsets.top)
+            arrowPoint = CGPointMake(target.x - self.bubbleView.frame.origin.x + self.bubbleView.marginEdgeInsets.left, self.bubbleView.marginEdgeInsets.top)
         case .Down:
-            point = CGPointMake(point.x - self.bubbleView.frame.origin.x + self.bubbleView.marginEdgeInsets.left, self.bubbleView.frame.size.height - self.bubbleView.marginEdgeInsets.bottom)
+            arrowPoint = CGPointMake(target.x - self.bubbleView.frame.origin.x + self.bubbleView.marginEdgeInsets.left, self.bubbleView.frame.size.height - self.bubbleView.marginEdgeInsets.bottom)
         case .Left:
-            point = CGPointMake(self.bubbleView.marginEdgeInsets.left, point.y - self.bubbleView.frame.origin.y + self.bubbleView.marginEdgeInsets.top)
+            arrowPoint = CGPointMake(self.bubbleView.marginEdgeInsets.left, target.y - self.bubbleView.frame.origin.y + self.bubbleView.marginEdgeInsets.top)
         case .Right:
-            point = CGPointMake(self.bubbleView.frame.size.width - self.bubbleView.marginEdgeInsets.right, point.y - self.bubbleView.frame.origin.y + self.bubbleView.marginEdgeInsets.top)
+            arrowPoint = CGPointMake(self.bubbleView.frame.size.width - self.bubbleView.marginEdgeInsets.right, target.y - self.bubbleView.frame.origin.y + self.bubbleView.marginEdgeInsets.top)
         }
         
-        return point
+        self.bubbleView.setArrowPoint(arrowPoint: arrowPoint)
     }
-    
+
     public func setContentView(contentView: UIView)
     {
-        var size = contentView.sizeThatFits(CGSizeMake(self.maxWidth, 9999))
-        contentView.frame.size = CGSizeMake(self.maxWidth, size.height)
+        var size = contentView.sizeThatFits(CGSizeMake(self.contentMaxWidth, 9999))
+        contentView.frame.size = CGSizeMake(self.contentMaxWidth, size.height)
         self.bubbleView.contentView = contentView
     }
 }
@@ -80,21 +120,19 @@ public class SCChatBubbleView: UIView
     private var _boxShapeLayer: CAShapeLayer?
     private var _arrowShapeLayer: CAShapeLayer?
     
-    public var lockHorizontal = false
+    var arrowDirection: ArrowDirection = .Down
+    var arrowWidth: CGFloat = 10.0
+    var arrowHeight: CGFloat = 20.0
+    var marginEdgeInsets = UIEdgeInsetsMake(1.0, 2.0, 1.0, 2.0)
+    var paddingEdgeInsets = UIEdgeInsetsMake(5.0, 10.0, 5.0, 10.0)
+    var cornerPadding: CGFloat = 12.0
+    var cornerRadius: CGFloat = 6.0
+    var fillColor: UIColor = UIColor.whiteColor()
+    var strokeColor: UIColor = UIColor.blackColor()
     
-    public var arrowDirection: ArrowDirection = .Down
-    public var arrowWidth: CGFloat = 10.0
-    public var arrowHeight: CGFloat = 20.0
-    public var marginEdgeInsets = UIEdgeInsetsMake(1.0, 2.0, 1.0, 2.0)
-    public var paddingEdgeInsets = UIEdgeInsetsMake(5.0, 10.0, 5.0, 10.0)
-    public var cornerPadding: CGFloat = 12.0
-    public var cornerRadius: CGFloat = 6.0
     private var arrowPoint: CGPoint = CGPointMake(40, 60)
-    
-    public var fillColor: UIColor = UIColor.whiteColor()
-    public var strokeColor: UIColor = UIColor.blackColor()
-    
-    public var contentView: UIView! {
+
+    var contentView: UIView! {
         willSet {
             self.contentView.removeFromSuperview()
         }
@@ -115,24 +153,9 @@ public class SCChatBubbleView: UIView
         }
     }
     
-    override public init()
+    public convenience init(contentView: UIView)
     {
-        super.init()
-    }
-
-    override public init(frame: CGRect)
-    {
-        super.init(frame: frame)
-    }
-    
-    required public init(coder aDecoder: NSCoder)
-    {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    public init(contentView: UIView)
-    {
-        super.init()
+        self.init()
         self.contentView = contentView
         self.contentView.layer.zPosition = 999
         self.addSubview(self.contentView)
@@ -142,7 +165,7 @@ public class SCChatBubbleView: UIView
         self.frame.size = size
     }
     
-    public var boxShapeLayer: CAShapeLayer {
+    private var boxShapeLayer: CAShapeLayer {
         if _boxShapeLayer == nil {
             _boxShapeLayer = CAShapeLayer()
             _boxShapeLayer?.fillColor = self.fillColor.CGColor
@@ -153,7 +176,7 @@ public class SCChatBubbleView: UIView
         return _boxShapeLayer!
     }
     
-    public var arrowShapeLayer: CAShapeLayer {
+    private var arrowShapeLayer: CAShapeLayer {
         if _arrowShapeLayer == nil {
             _arrowShapeLayer = CAShapeLayer()
             _arrowShapeLayer?.fillColor = self.fillColor.CGColor
@@ -163,7 +186,6 @@ public class SCChatBubbleView: UIView
         }
         return _arrowShapeLayer!
     }
-    
     
     public func boxShapePathInRect(#rect: CGRect) -> UIBezierPath
     {
@@ -176,7 +198,7 @@ public class SCChatBubbleView: UIView
         var point0 = CGPointZero
         var point1 = self.arrowPoint
         var point2 = CGPointZero
-
+        println(self.arrowPoint)
         switch (self.arrowDirection) {
         case .Up:
             point0.x = min(max(self.arrowPoint.x - self.arrowWidth, self.marginEdgeInsets.left + self.cornerPadding), self.frame.size.width - self.marginEdgeInsets.right - self.cornerPadding - self.arrowWidth * 2.0)
@@ -207,16 +229,18 @@ public class SCChatBubbleView: UIView
         return path
     }
     
-    public func setArrowPoint(var #arrowPoint: CGPoint, direction: ArrowDirection)
+    internal func setArrowPoint(var #arrowPoint: CGPoint)
     {
-        switch direction {
+        switch self.arrowDirection {
         case .Up, .Down:
             arrowPoint.x = min(max(self.marginEdgeInsets.left, arrowPoint.x), self.frame.size.width - self.marginEdgeInsets.right)
         case .Left, .Right:
             arrowPoint.y = min(max(self.marginEdgeInsets.top, arrowPoint.y), self.frame.size.height - self.marginEdgeInsets.bottom)
         }
         self.arrowPoint = arrowPoint;
-        self.arrowDirection = direction
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.setNeedsLayout()
+        })
     }
     
     public override func layoutSubviews()

@@ -87,10 +87,10 @@
             </objects>
             <point key="canvasLocation" x="1915" y="1061"/>
         </scene>
-        <!--DemoSC Chatbubble View Controller-->
+        <!--DemoSC Chat View Controller-->
         <scene sceneID="KGc-pf-N3c">
             <objects>
-                <viewController id="VaH-iJ-Ji1" customClass="Demo_SCChatbubbleViewController" customModule="DemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="VaH-iJ-Ji1" customClass="Demo_SCChatViewController" customModule="DemoApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="K7d-0n-8Ke"/>
                         <viewControllerLayoutGuide type="bottom" id="ync-JS-Iwy"/>
@@ -107,6 +107,9 @@
                                     <segment title="Left"/>
                                     <segment title="Right"/>
                                 </segments>
+                                <connections>
+                                    <action selector="arrowDirectionChanged:" destination="VaH-iJ-Ji1" eventType="valueChanged" id="JTN-XU-tRB"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -116,7 +119,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="segment" destination="zeM-ns-ppo" id="xst-3X-CHc"/>
+                        <outlet property="segment" destination="zeM-ns-ppo" id="Toa-86-pHr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z3q-zX-tKA" userLabel="First Responder" sceneMemberID="firstResponder"/>

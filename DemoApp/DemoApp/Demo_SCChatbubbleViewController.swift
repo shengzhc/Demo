@@ -8,117 +8,130 @@
 
 import UIKit
 
-class Demo_SCChatbubbleViewController: SCChatBubbleViewController
+class Demo_SCChatViewController: UIViewController
 {
     @IBOutlet weak var segment: UISegmentedControl!
-    var isTracking = false
-    
+    var chatBubbleViewController = Demo_SCChatBubbleViewController()
+    var label: UILabel!
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.whiteColor()
-    }
-    
-    override func targetAtPoint(point: CGPoint, direction: SCChatBubbleView.ArrowDirection)
-    {
-        var label = UILabel()
-        label.textColor = ColorPalate.DarkFuji.color
-        label.font = UIFont(name: "AvenirNextCondensed-Regular", size: 16.0)
-        label.numberOfLines = 0
-        label.textAlignment = NSTextAlignment.Center
+        self.addChildViewController(self.chatBubbleViewController)
+        self.chatBubbleViewController.willMoveToParentViewController(self)
+        self.chatBubbleViewController.view.frame = CGRectMake(0, 150, self.view.bounds.size.width, 600)
+        self.view.addSubview(self.chatBubbleViewController.view)
+        self.chatBubbleViewController.didMoveToParentViewController(self)
         
-        switch direction {
-            
-        case .Up, .Down:
-            if point.x > self.view.frame.size.width * 0.3 && point.x < self.view.frame.size.width * 0.7 {
-                label.text = "I am a very very very long string I am a very very very long string"
-            } else if point.x < self.view.frame.size.width * 0.3 {
-                label.text = "I am a short left string"
-            } else {
-                label.text = "I am a short right string"
-            }
-        case .Left, .Right:
-            if point.y > self.view.frame.size.height * 0.3 && point.y < self.view.frame.size.height * 0.7 {
-                label.text = "I am a very very very long string I am a very very very long string"
-            } else if point.y < self.view.frame.size.height * 0.3 {
-                label.text = "I am a short top string"
-            } else {
-                label.text = "I am a short bottom string"
-            }
-        }
+        self.label = UILabel()
+        self.label.textColor = ColorPalate.DarkFuji.color
+        self.label.font = UIFont(name: "AvenirNextCondensed-Regular", size: 16.0)
+        self.label.numberOfLines = 0
+        self.label.textAlignment = NSTextAlignment.Center
         
-        self.setContentView(label)
-        super.targetAtPoint(point, direction: direction)
         
-        switch self.bubbleView.arrowDirection {
-        case .Up, .Down:
-            self.bubbleView.frame.origin.y = self.view.bounds.size.height/2.0 - self.bubbleView.frame.size.height
-        case .Left, .Right:
-            self.bubbleView.frame.origin.x = self.view.bounds.size.width/2.0 - self.bubbleView.frame.size.width/2.0
+        switch self.segment.selectedSegmentIndex {
+        case 0:
+            self.chatBubbleViewController.arrowDirection = .Up
+        case 1:
+            self.chatBubbleViewController.arrowDirection = .Down
+        case 2:
+            self.chatBubbleViewController.arrowDirection = .Left
+        case 3:
+            self.chatBubbleViewController.arrowDirection = .Right
+        default:
+            self.chatBubbleViewController.arrowDirection = .Down
         }
-    }
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
-    {
-        isTracking = true
-        self.bubbleView.hidden = false
-        
-        if let touch = touches.anyObject() as? UITouch {
-            var location = touch.locationInView(self.view)
-            var direction: SCChatBubbleView.ArrowDirection = .Down
-            switch self.segment.selectedSegmentIndex {
-            case 0:
-                direction = .Up
-            case 1:
-                direction = .Down
-            case 2:
-                direction = .Left
-            case 3:
-                direction = .Right
-            default:
-                direction = .Down
-            }
-            
-            self.targetAtPoint(location, direction: direction)
-        }
-    }
-    
-    override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
-    {
-        if let touch = touches.anyObject() as? UITouch {
-            var location = touch.locationInView(self.view)
-            var direction: SCChatBubbleView.ArrowDirection = .Down
-            switch self.segment.selectedSegmentIndex {
-            case 0:
-                direction = .Up
-            case 1:
-                direction = .Down
-            case 2:
-                direction = .Left
-            case 3:
-                direction = .Right
-            default:
-                direction = .Down
-            }
-            self.targetAtPoint(location, direction: direction)
-        }
-    }
-    
-    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!)
-    {
-        isTracking = false
-        self.bubbleView.hidden = true
-    }
-    
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
-    {
-        isTracking = false
-        self.bubbleView.hidden = true
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
         self.title = "Demo SCChatBubbleViewController"
+    }
+    
+    override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
+    {
+        self.chatBubbleViewController.view.hidden = false
+        if let touch = touches.anyObject() as? UITouch {
+            self.operateBubbleWithTouch(touch)
+        }
+    }
+    
+    override func touchesMoved(touches: NSSet, withEvent event: UIEvent)
+    {
+        if let touch = touches.anyObject() as? UITouch {
+            self.operateBubbleWithTouch(touch)
+        }
+    }
+    
+    override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!)
+    {
+        self.chatBubbleViewController.view.hidden = true
+    }
+    
+    override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
+    {
+        self.chatBubbleViewController.view.hidden = true
+    }
+    
+    func operateBubbleWithTouch(touch: UITouch)
+    {
+        var location = touch.locationInView(self.view)
+        var text = ""
+        switch self.chatBubbleViewController.arrowDirection {
+        case .Up, .Down:
+            if location.x > self.view.frame.size.width * 0.3 && location.x < self.view.frame.size.width * 0.7 {
+                text = "I am a very very very long string I am a very very very long string"
+            } else if location.x < self.view.frame.size.width * 0.3 {
+                text = "I am a short left string"
+            } else {
+                text = "I am a short right string"
+            }
+        case .Left, .Right:
+            if location.y > self.view.frame.size.height * 0.3 && location.y < self.view.frame.size.height * 0.7 {
+                text = "I am a very very very long string I am a very very very long string"
+            } else if location.y < self.view.frame.size.height * 0.3 {
+                text = "I am a short top string"
+            } else {
+                text = "I am a short bottom string"
+            }
+        }
+        if self.label.text != text {
+            self.label.text = text
+            self.chatBubbleViewController.setContentView(label)
+        }
+        self.chatBubbleViewController.targetAtPoint(location)
+    }
+    
+    @IBAction func arrowDirectionChanged(sender: AnyObject)
+    {
+        switch self.segment.selectedSegmentIndex {
+        case 0:
+            self.chatBubbleViewController.arrowDirection = .Up
+        case 1:
+            self.chatBubbleViewController.arrowDirection = .Down
+        case 2:
+            self.chatBubbleViewController.arrowDirection = .Left
+        case 3:
+            self.chatBubbleViewController.arrowDirection = .Right
+        default:
+            self.chatBubbleViewController.arrowDirection = .Down
+        }
+    }
+    
+}
+
+class Demo_SCChatBubbleViewController: SCChatBubbleViewController
+{
+    override func targetAtPoint(target: CGPoint)
+    {
+        super.targetAtPoint(target)
+        switch self.arrowDirection {
+        case .Up, .Down:
+            self.bubbleView.frame.origin.y = self.view.bounds.size.height/2.0 - self.bubbleView.frame.size.height
+        case .Left, .Right:
+            self.bubbleView.frame.origin.x = self.view.bounds.size.width/2.0 - self.bubbleView.frame.size.width/2.0
+        }
     }
 }
