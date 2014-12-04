@@ -29,6 +29,7 @@
                     <connections>
                         <segue destination="Fah-sP-ABe" kind="show" identifier="SCTreeMenuSelectorIdentifier" id="Dfr-B0-F4T"/>
                         <segue destination="OkD-dG-oMd" kind="show" identifier="SCModalDialogIdentifier" id="zX7-T0-0WK"/>
+                        <segue destination="VaH-iJ-Ji1" kind="show" identifier="SCChatBubbleIdentifier" id="yYs-Ot-L4j"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvn-VL-HX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -85,6 +86,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E5F-MD-beq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1915" y="1061"/>
+        </scene>
+        <!--DemoSC Chatbubble View Controller-->
+        <scene sceneID="KGc-pf-N3c">
+            <objects>
+                <viewController id="VaH-iJ-Ji1" customClass="Demo_SCChatbubbleViewController" customModule="DemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="K7d-0n-8Ke"/>
+                        <viewControllerLayoutGuide type="bottom" id="ync-JS-Iwy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3Bz-tk-fKw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zeM-ns-ppo">
+                                <rect key="frame" x="201" y="100" width="199" height="29"/>
+                                <segments>
+                                    <segment title="Up"/>
+                                    <segment title="Down"/>
+                                    <segment title="Left"/>
+                                    <segment title="Right"/>
+                                </segments>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="zeM-ns-ppo" secondAttribute="centerX" constant="-0.5" id="dXj-QD-76u"/>
+                            <constraint firstItem="zeM-ns-ppo" firstAttribute="top" secondItem="K7d-0n-8Ke" secondAttribute="bottom" constant="36" id="x2w-PG-Qjd"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="segment" destination="zeM-ns-ppo" id="xst-3X-CHc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z3q-zX-tKA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1915" y="-326"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PBc-Rj-Vql">

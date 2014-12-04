@@ -20,6 +20,8 @@
 		9C6E7DF91A24CEB500FC074E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF81A24CEB500FC074E /* Images.xcassets */; };
 		9C6E7DFC1A24CEB500FC074E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C6E7DFA1A24CEB500FC074E /* LaunchScreen.xib */; };
 		9C6E7E081A24CEB500FC074E /* DemoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7E071A24CEB500FC074E /* DemoAppTests.swift */; };
+		9CF9D2351A2FA3AB006A076A /* Demo_SCChatbubbleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9D2341A2FA3AB006A076A /* Demo_SCChatbubbleViewController.swift */; };
+		9CF9D2371A2FA635006A076A /* SCChatBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9D2361A2FA635006A076A /* SCChatBubbleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +64,8 @@
 		9C6E7E011A24CEB500FC074E /* DemoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C6E7E061A24CEB500FC074E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C6E7E071A24CEB500FC074E /* DemoAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppTests.swift; sourceTree = "<group>"; };
+		9CF9D2341A2FA3AB006A076A /* Demo_SCChatbubbleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo_SCChatbubbleViewController.swift; sourceTree = "<group>"; };
+		9CF9D2361A2FA635006A076A /* SCChatBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCChatBubbleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,7 @@
 			children = (
 				9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */,
 				9C3247771A2C2D0000018C4B /* Demo_SCModalDialog.swift */,
+				9CF9D2341A2FA3AB006A076A /* Demo_SCChatbubbleViewController.swift */,
 				9C6E7DF11A24CEB500FC074E /* AppDelegate.swift */,
 				9C6E7DF31A24CEB500FC074E /* ViewController.swift */,
 				9C6E7DF51A24CEB500FC074E /* Main.storyboard */,
@@ -118,6 +123,7 @@
 				9C515CA61A2692A3003C0896 /* menu.json */,
 				9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */,
 				9C59BDD41A2C4F4600D813D3 /* DemoIcons.swift */,
+				9CF9D2361A2FA635006A076A /* SCChatBubbleView.swift */,
 			);
 			path = DemoApp;
 			sourceTree = "<group>";
@@ -253,7 +259,9 @@
 				9C3247781A2C2D0000018C4B /* Demo_SCModalDialog.swift in Sources */,
 				9C59BDD51A2C4F4600D813D3 /* DemoIcons.swift in Sources */,
 				9C3744CE1A2A9A6900149CAC /* ColorPalate.swift in Sources */,
+				9CF9D2351A2FA3AB006A076A /* Demo_SCChatbubbleViewController.swift in Sources */,
 				9C3744D41A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift in Sources */,
+				9CF9D2371A2FA635006A076A /* SCChatBubbleView.swift in Sources */,
 				9C6E7DF21A24CEB500FC074E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

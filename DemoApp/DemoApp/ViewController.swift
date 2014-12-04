@@ -12,7 +12,7 @@ class ViewController: UITableViewController
 {
     enum DemoRows: String
     {
-        case SCTreeMenuSelector = "SCTreeMenuSelectorIdentifier", SCModalDialog = "SCModalDialogIdentifier"
+        case SCTreeMenuSelector = "SCTreeMenuSelectorIdentifier", SCModalDialog = "SCModalDialogIdentifier", SCChatBubble = "SCChatBubbleIdentifier"
         
         static func selectorAtIndex(index: Int) -> String? {
             switch index {
@@ -20,6 +20,8 @@ class ViewController: UITableViewController
                 return DemoRows.SCTreeMenuSelector.rawValue
             case 1:
                 return DemoRows.SCModalDialog.rawValue
+            case 2:
+                return DemoRows.SCChatBubble.rawValue
             default:
                 return nil
             }
@@ -52,6 +54,8 @@ class ViewController: UITableViewController
             cell?.textLabel.text = DemoRows.SCTreeMenuSelector.rawValue
         case 1:
             cell?.textLabel.text = DemoRows.SCModalDialog.rawValue
+        case 2:
+            cell?.textLabel.text = DemoRows.SCChatBubble.rawValue
         default:
             break
         }
@@ -61,7 +65,7 @@ class ViewController: UITableViewController
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 2;
+        return 3;
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)

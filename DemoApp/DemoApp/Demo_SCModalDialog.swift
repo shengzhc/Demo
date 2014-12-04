@@ -17,6 +17,12 @@ class Demo_ModalDialogViewController: UIViewController, SCModalDialogPresentatio
         return delegation
     }()
     
+    override func viewWillAppear(animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        self.title = "Demo SCModalDialogViewController"
+    }
+    
     @IBAction func hitButtonClicked(sender: AnyObject)
     {
         var controller = UIViewController()
