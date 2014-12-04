@@ -87,10 +87,10 @@
             </objects>
             <point key="canvasLocation" x="1915" y="1061"/>
         </scene>
-        <!--DemoSC Chat View Controller-->
+        <!--DemoSC Moving Popover Controller-->
         <scene sceneID="KGc-pf-N3c">
             <objects>
-                <viewController id="VaH-iJ-Ji1" customClass="Demo_SCChatViewController" customModule="DemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="VaH-iJ-Ji1" customClass="Demo_SCMovingPopoverController" customModule="DemoApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="K7d-0n-8Ke"/>
                         <viewControllerLayoutGuide type="bottom" id="ync-JS-Iwy"/>

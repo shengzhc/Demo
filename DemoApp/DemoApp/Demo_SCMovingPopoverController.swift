@@ -1,5 +1,5 @@
 //
-//  Demo_SCChatbubbleViewController.swift
+//  Demo_SCMovingPopoverController.swift
 //  DemoApp
 //
 //  Created by Shengzhe Chen on 12/3/14.
@@ -7,21 +7,22 @@
 //
 
 import UIKit
+import SCMovingPopover
 
-class Demo_SCChatViewController: UIViewController
+class Demo_SCMovingPopoverController: UIViewController
 {
     @IBOutlet weak var segment: UISegmentedControl!
-    var chatBubbleViewController = Demo_SCChatBubbleViewController()
+    var movingPopoverViewController = Demo_SCMovingPopoverViewController()
     var label: UILabel!
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.addChildViewController(self.chatBubbleViewController)
-        self.chatBubbleViewController.willMoveToParentViewController(self)
-        self.chatBubbleViewController.view.frame = CGRectMake(0, 150, self.view.bounds.size.width, 600)
-        self.view.addSubview(self.chatBubbleViewController.view)
-        self.chatBubbleViewController.didMoveToParentViewController(self)
+        self.addChildViewController(self.movingPopoverViewController)
+        self.movingPopoverViewController.willMoveToParentViewController(self)
+        self.movingPopoverViewController.view.frame = CGRectMake(0, 150, self.view.bounds.size.width, 600)
+        self.view.addSubview(self.movingPopoverViewController.view)
+        self.movingPopoverViewController.didMoveToParentViewController(self)
         
         self.label = UILabel()
         self.label.textColor = ColorPalate.DarkFuji.color
@@ -32,15 +33,15 @@ class Demo_SCChatViewController: UIViewController
         
         switch self.segment.selectedSegmentIndex {
         case 0:
-            self.chatBubbleViewController.arrowDirection = .Up
+            self.movingPopoverViewController.arrowDirection = .Up
         case 1:
-            self.chatBubbleViewController.arrowDirection = .Down
+            self.movingPopoverViewController.arrowDirection = .Down
         case 2:
-            self.chatBubbleViewController.arrowDirection = .Left
+            self.movingPopoverViewController.arrowDirection = .Left
         case 3:
-            self.chatBubbleViewController.arrowDirection = .Right
+            self.movingPopoverViewController.arrowDirection = .Right
         default:
-            self.chatBubbleViewController.arrowDirection = .Down
+            self.movingPopoverViewController.arrowDirection = .Down
         }
     }
     
@@ -52,7 +53,7 @@ class Demo_SCChatViewController: UIViewController
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent)
     {
-        self.chatBubbleViewController.view.hidden = false
+        self.movingPopoverViewController.view.hidden = false
         if let touch = touches.anyObject() as? UITouch {
             self.operateBubbleWithTouch(touch)
         }
@@ -67,19 +68,19 @@ class Demo_SCChatViewController: UIViewController
     
     override func touchesCancelled(touches: NSSet!, withEvent event: UIEvent!)
     {
-        self.chatBubbleViewController.view.hidden = true
+        self.movingPopoverViewController.view.hidden = true
     }
     
     override func touchesEnded(touches: NSSet, withEvent event: UIEvent)
     {
-        self.chatBubbleViewController.view.hidden = true
+        self.movingPopoverViewController.view.hidden = true
     }
     
     func operateBubbleWithTouch(touch: UITouch)
     {
         var location = touch.locationInView(self.view)
         var text = ""
-        switch self.chatBubbleViewController.arrowDirection {
+        switch self.movingPopoverViewController.arrowDirection {
         case .Up, .Down:
             if location.x > self.view.frame.size.width * 0.3 && location.x < self.view.frame.size.width * 0.7 {
                 text = "I am a very very very long string I am a very very very long string"
@@ -99,39 +100,39 @@ class Demo_SCChatViewController: UIViewController
         }
         if self.label.text != text {
             self.label.text = text
-            self.chatBubbleViewController.setContentView(label)
+            self.movingPopoverViewController.setContentView(label)
         }
-        self.chatBubbleViewController.targetAtPoint(location)
+        self.movingPopoverViewController.targetAtPoint(location)
     }
     
     @IBAction func arrowDirectionChanged(sender: AnyObject)
     {
         switch self.segment.selectedSegmentIndex {
         case 0:
-            self.chatBubbleViewController.arrowDirection = .Up
+            self.movingPopoverViewController.arrowDirection = .Up
         case 1:
-            self.chatBubbleViewController.arrowDirection = .Down
+            self.movingPopoverViewController.arrowDirection = .Down
         case 2:
-            self.chatBubbleViewController.arrowDirection = .Left
+            self.movingPopoverViewController.arrowDirection = .Left
         case 3:
-            self.chatBubbleViewController.arrowDirection = .Right
+            self.movingPopoverViewController.arrowDirection = .Right
         default:
-            self.chatBubbleViewController.arrowDirection = .Down
+            self.movingPopoverViewController.arrowDirection = .Down
         }
     }
     
 }
 
-class Demo_SCChatBubbleViewController: SCChatBubbleViewController
+class Demo_SCMovingPopoverViewController: SCMovingPopover
 {
     override func targetAtPoint(target: CGPoint)
     {
         super.targetAtPoint(target)
         switch self.arrowDirection {
         case .Up, .Down:
-            self.bubbleView.frame.origin.y = self.view.bounds.size.height/2.0 - self.bubbleView.frame.size.height
+            self.popoverView.frame.origin.y = self.view.bounds.size.height/2.0 - self.popoverView.frame.size.height
         case .Left, .Right:
-            self.bubbleView.frame.origin.x = self.view.bounds.size.width/2.0 - self.bubbleView.frame.size.width/2.0
+            self.popoverView.frame.origin.x = self.view.bounds.size.width/2.0 - self.popoverView.frame.size.width/2.0
         }
     }
 }
