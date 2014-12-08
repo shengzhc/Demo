@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Demo_SCPhotoViewerViewController: SCPhotoViewer
+class Demo_SCPhotoViewerViewController: SCImageViewer
 {
     override func viewWillAppear(animated: Bool)
     {

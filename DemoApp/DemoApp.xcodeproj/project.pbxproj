@@ -14,6 +14,9 @@
 		9C3744D41A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */; };
 		9C454AF21A30EE360061782D /* SCMovingPopover.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C454AF11A30EE360061782D /* SCMovingPopover.framework */; };
 		9C515CA71A2692A3003C0896 /* menu.json in Resources */ = {isa = PBXBuildFile; fileRef = 9C515CA61A2692A3003C0896 /* menu.json */; };
+		9C5591D31A366540005FC333 /* SCMovingPopover.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9C454AF11A30EE360061782D /* SCMovingPopover.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9C5591D41A366540005FC333 /* SCModalDialog.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9C3553BD1A2D3DAC00F2CD71 /* SCModalDialog.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		9C5591D51A366540005FC333 /* SCTreeMenu.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9C20B4311A2AFECC0068EC0B /* SCTreeMenu.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9C59BDD51A2C4F4600D813D3 /* DemoIcons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C59BDD41A2C4F4600D813D3 /* DemoIcons.swift */; };
 		9C6E7DF21A24CEB500FC074E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF11A24CEB500FC074E /* AppDelegate.swift */; };
 		9C6E7DF41A24CEB500FC074E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF31A24CEB500FC074E /* ViewController.swift */; };
@@ -44,6 +47,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				9C5591D31A366540005FC333 /* SCMovingPopover.framework in CopyFiles */,
+				9C5591D41A366540005FC333 /* SCModalDialog.framework in CopyFiles */,
+				9C5591D51A366540005FC333 /* SCTreeMenu.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
