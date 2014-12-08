@@ -30,6 +30,7 @@
                         <segue destination="Fah-sP-ABe" kind="show" identifier="SCTreeMenuSelectorIdentifier" id="Dfr-B0-F4T"/>
                         <segue destination="OkD-dG-oMd" kind="show" identifier="SCModalDialogIdentifier" id="zX7-T0-0WK"/>
                         <segue destination="VaH-iJ-Ji1" kind="show" identifier="SCChatBubbleIdentifier" id="yYs-Ot-L4j"/>
+                        <segue destination="sVd-dQ-Vsi" kind="presentation" identifier="SCPhotoViewer" id="3kM-ff-Szk"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvn-VL-HX1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -125,6 +126,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z3q-zX-tKA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1915" y="-326"/>
+        </scene>
+        <!--DemoSC Photo Viewer View Controller-->
+        <scene sceneID="Zgc-Ma-sqG">
+            <objects>
+                <viewController id="sVd-dQ-Vsi" customClass="Demo_SCPhotoViewerViewController" customModule="DemoApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1zV-LA-yTn"/>
+                        <viewControllerLayoutGuide type="bottom" id="jCh-Hq-x0P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bqd-zY-c9V">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tOY-Ss-o0f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1160" y="-333"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PBc-Rj-Vql">

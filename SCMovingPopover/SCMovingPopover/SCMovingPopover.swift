@@ -80,9 +80,11 @@ public class SCMovingPopover: UIViewController
         case .Up, .Down:
             origin.x = max(self.blockMarginEdgeInsets.left, target.x - self.popoverView.bounds.width/2.0)
             origin.x = min(self.view.bounds.size.width - self.blockMarginEdgeInsets.right - self.popoverView.bounds.size.width, origin.x)
+            origin.y = target.y + (self.arrowDirection == .Up ? 0 : -1) * self.popoverView.bounds.size.height
         case .Left, .Right:
             origin.y = max(self.blockMarginEdgeInsets.top, target.y - self.popoverView.bounds.height/2.0)
             origin.y = min(self.view.bounds.size.height - self.blockMarginEdgeInsets.bottom - self.popoverView.bounds.size.height, origin.y)
+            origin.x = target.x + (self.arrowDirection == .Left ? 0 : -1) * self.popoverView.bounds.size.width
         }
         self.popoverView.frame.origin = origin
 
@@ -198,7 +200,6 @@ public class SCMovingPopoverView: UIView
         var point0 = CGPointZero
         var point1 = self.arrowPoint
         var point2 = CGPointZero
-        println(self.arrowPoint)
         switch (self.arrowDirection) {
         case .Up:
             point0.x = min(max(self.arrowPoint.x - self.arrowWidth, self.marginEdgeInsets.left + self.cornerPadding), self.frame.size.width - self.marginEdgeInsets.right - self.cornerPadding - self.arrowWidth * 2.0)

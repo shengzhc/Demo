@@ -21,6 +21,9 @@
 		9C6E7DF91A24CEB500FC074E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C6E7DF81A24CEB500FC074E /* Images.xcassets */; };
 		9C6E7DFC1A24CEB500FC074E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C6E7DFA1A24CEB500FC074E /* LaunchScreen.xib */; };
 		9C6E7E081A24CEB500FC074E /* DemoAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C6E7E071A24CEB500FC074E /* DemoAppTests.swift */; };
+		9CA543911A3296270093071A /* Demo_SCPhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA543901A3296270093071A /* Demo_SCPhotoViewerViewController.swift */; };
+		9CA543931A3296840093071A /* SCPhotoViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA543921A3296840093071A /* SCPhotoViewer.swift */; };
+		9CA543971A3298B20093071A /* image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 9CA543961A3298B20093071A /* image.jpg */; };
 		9CF9D2351A2FA3AB006A076A /* Demo_SCMovingPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF9D2341A2FA3AB006A076A /* Demo_SCMovingPopoverController.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +68,9 @@
 		9C6E7E011A24CEB500FC074E /* DemoAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C6E7E061A24CEB500FC074E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C6E7E071A24CEB500FC074E /* DemoAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAppTests.swift; sourceTree = "<group>"; };
+		9CA543901A3296270093071A /* Demo_SCPhotoViewerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo_SCPhotoViewerViewController.swift; sourceTree = "<group>"; };
+		9CA543921A3296840093071A /* SCPhotoViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCPhotoViewer.swift; sourceTree = "<group>"; };
+		9CA543961A3298B20093071A /* image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = image.jpg; sourceTree = "<group>"; };
 		9CF9D2341A2FA3AB006A076A /* Demo_SCMovingPopoverController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Demo_SCMovingPopoverController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -116,15 +122,16 @@
 				9C3744D31A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift */,
 				9C3247771A2C2D0000018C4B /* Demo_SCModalDialog.swift */,
 				9CF9D2341A2FA3AB006A076A /* Demo_SCMovingPopoverController.swift */,
+				9CA543901A3296270093071A /* Demo_SCPhotoViewerViewController.swift */,
 				9C6E7DF11A24CEB500FC074E /* AppDelegate.swift */,
 				9C6E7DF31A24CEB500FC074E /* ViewController.swift */,
 				9C6E7DF51A24CEB500FC074E /* Main.storyboard */,
 				9C6E7DF81A24CEB500FC074E /* Images.xcassets */,
 				9C6E7DFA1A24CEB500FC074E /* LaunchScreen.xib */,
 				9C6E7DEF1A24CEB500FC074E /* Supporting Files */,
-				9C515CA61A2692A3003C0896 /* menu.json */,
 				9C3744CD1A2A9A6900149CAC /* ColorPalate.swift */,
 				9C59BDD41A2C4F4600D813D3 /* DemoIcons.swift */,
+				9CA543921A3296840093071A /* SCPhotoViewer.swift */,
 			);
 			path = DemoApp;
 			sourceTree = "<group>";
@@ -132,6 +139,8 @@
 		9C6E7DEF1A24CEB500FC074E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9CA543961A3298B20093071A /* image.jpg */,
+				9C515CA61A2692A3003C0896 /* menu.json */,
 				9C6E7DF01A24CEB500FC074E /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -239,6 +248,7 @@
 				9C6E7DFC1A24CEB500FC074E /* LaunchScreen.xib in Resources */,
 				9C515CA71A2692A3003C0896 /* menu.json in Resources */,
 				9C6E7DF91A24CEB500FC074E /* Images.xcassets in Resources */,
+				9CA543971A3298B20093071A /* image.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +272,8 @@
 				9C3744CE1A2A9A6900149CAC /* ColorPalate.swift in Sources */,
 				9CF9D2351A2FA3AB006A076A /* Demo_SCMovingPopoverController.swift in Sources */,
 				9C3744D41A2A9CFC00149CAC /* Demo_SCTreeMenuViewController.swift in Sources */,
+				9CA543931A3296840093071A /* SCPhotoViewer.swift in Sources */,
+				9CA543911A3296270093071A /* Demo_SCPhotoViewerViewController.swift in Sources */,
 				9C6E7DF21A24CEB500FC074E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
