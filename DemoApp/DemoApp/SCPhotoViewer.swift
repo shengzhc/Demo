@@ -41,6 +41,14 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override var frame: CGRect {
+        didSet {
+            if let image = self.imageView.image {
+                self.setImage(image)
+            }
+        }
+    }
+    
     private func setup()
     {
         self.setupContent()
@@ -136,53 +144,83 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
     }
 }
 
+public class SCImageViewerCell: UICollectionViewCell
+{
+    var imageView = SCZoomingImageView()
+    public override func prepareForReuse()
+    {
+        super.prepareForReuse()
+        self.imageView.reset()
+    }
+    
+    public func setupImage(image: UIImage)
+    {
+        if self.imageView.superview == nil {
+            self.contentView.addSubview(self.imageView)
+        }
+        self.imageView.setImage(image)
+    }
+    
+    public override func layoutSubviews()
+    {
+        super.layoutSubviews()
+        self.imageView.frame = self.contentView.bounds
+    }
+}
 
 public class SCImageViewer: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 {
     var collectionView: UICollectionView!
     var flowLayout: UICollectionViewFlowLayout!
-    
-    var imageView = SCZoomingImageView()
 
     public override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.view.addSubview(self.imageView)
         
-//        self.flowLayout = UICollectionViewFlowLayout()
-//        self.flowLayout.scrollDirection = .Horizontal
-//        self.flowLayout.minimumInteritemSpacing = 0
-//        self.flowLayout.minimumLineSpacing = 0
-//        self.flowLayout.sectionInset = UIEdgeInsetsZero
-//
-//        self.collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.flowLayout)
-//        self.collectionView.delegate = self
-//        self.collectionView.dataSource = self
-    }
-    
-    public override func viewWillLayoutSubviews()
-    {
-        super.viewWillLayoutSubviews()
-        self.imageView.frame = self.view.bounds
-        self.imageView.setImage(UIImage(named: "image.jpg")!)
-//        self.collectionView.frame = self.view.bounds
+        self.flowLayout = UICollectionViewFlowLayout()
+        self.flowLayout.scrollDirection = .Horizontal
+        self.flowLayout.minimumInteritemSpacing = 0
+        self.flowLayout.minimumLineSpacing = 0
+        self.flowLayout.sectionInset = UIEdgeInsetsZero
+
+        self.collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: self.flowLayout)
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.registerClass(SCImageViewerCell.self, forCellWithReuseIdentifier: "Cell")
+        self.collectionView.backgroundColor = UIColor.clearColor()
+        self.collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        
+        self.view.addSubview(self.collectionView)
+        let views = ["v": self.collectionView]
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return 0
+        return 1
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as UICollectionViewCell
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as SCImageViewerCell
+        if let image = UIImage(named: "image.jpg") {
+            cell.setupImage(image)
+        }
         return cell
     }
     
-    
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize
     {
-        return CGSizeZero
+        return self.collectionView.bounds.size
+    }
+    
+    public override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator)
+    {
+        self.collectionView.collectionViewLayout.invalidateLayout()
+        coordinator.animateAlongsideTransition({ (context: UIViewControllerTransitionCoordinatorContext!) -> Void in
+        }, completion: { (context: UIViewControllerTransitionCoordinatorContext!) -> Void in
+        })
     }
 }
 
