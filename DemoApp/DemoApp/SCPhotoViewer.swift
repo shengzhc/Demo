@@ -41,16 +41,9 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override var frame: CGRect {
-        didSet {
-            if let image = self.imageView.image {
-                self.setImage(image)
-            }
-        }
-    }
-    
     private func setup()
     {
+        self.backgroundColor = UIColor.redColor()
         self.setupContent()
         self.setupGestureRecognizer()
         self.reset()
@@ -113,10 +106,11 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
     
     public func alignContent()
     {
-        self.contentSize = self.imageView.frame.size
-        var left = max((self.bounds.size.width - self.contentSize.width) * 0.5, 0)
-        var top = max((self.bounds.size.height - self.contentSize.height) * 0.5, 0)
-        self.contentInset = UIEdgeInsetsMake(top, left, top, left)
+        var frame = self.imageView.frame
+        self.contentSize = frame.size
+        var left = max((self.bounds.size.width - frame.width) * 0.5, 0)
+        var top = max((self.bounds.size.height - frame.height) * 0.5, 0)
+        self.imageView.frame = CGRectMake(left, top, frame.size.width, frame.size.height)
     }
     
     public func setImage(image: UIImage)
@@ -142,6 +136,11 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
         self.contentSize = self.bounds.size
         self.contentOffset = CGPointZero
     }
+    
+    public func f()
+    {
+    
+    }
 }
 
 public class SCImageViewerCell: UICollectionViewCell
@@ -158,6 +157,7 @@ public class SCImageViewerCell: UICollectionViewCell
         if self.imageView.superview == nil {
             self.contentView.addSubview(self.imageView)
         }
+        self.imageView.frame = self.contentView.bounds
         self.imageView.setImage(image)
     }
     
@@ -187,13 +187,29 @@ public class SCImageViewer: UIViewController, UICollectionViewDataSource, UIColl
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.registerClass(SCImageViewerCell.self, forCellWithReuseIdentifier: "Cell")
-        self.collectionView.backgroundColor = UIColor.clearColor()
-        self.collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+//        self.collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         self.view.addSubview(self.collectionView)
-        let views = ["v": self.collectionView]
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+//        let views = ["v": self.collectionView]
+//        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+//        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+    }
+    
+    public override func viewWillAppear(animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(animated, withAnimation: .Fade)
+    }
+    
+    public override func viewWillDisappear(animated: Bool)
+    {
+        super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarHidden(animated, withAnimation: .Fade)
+    }
+    
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.collectionView.frame = self.view.bounds
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
