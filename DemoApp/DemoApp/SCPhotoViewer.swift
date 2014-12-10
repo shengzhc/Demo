@@ -12,6 +12,8 @@ import UIKit
 public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
 {
     private var _imageView = UIImageView()
+    private var _prevBounds = CGRectZero
+
     private var doubleTapGestureRecognizer: UITapGestureRecognizer?
     private var singleTapGestureRecognizer: UITapGestureRecognizer?
     
@@ -83,16 +85,7 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
     {
         var scalor = self.zoomScale == self.maximumZoomScale ? self.minimumZoomScale : self.maximumZoomScale
         var location = gestureRecognizer.locationInView(self.imageView)
-        var zoom_rect = CGRectMake(0, 0, self.bounds.size.width/scalor, self.bounds.size.height/scalor)
-        zoom_rect.origin.x = location.x - zoom_rect.size.width/2.0
-        zoom_rect.origin.y = location.y - zoom_rect.size.height/2.0
-        self.zoomToRect(zoom_rect, animated: true)
-    }
-    
-    public override func layoutSubviews()
-    {
-        super.layoutSubviews()
-        self.align()
+        self.align(center: location, scale: scalor)
     }
     
     public func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
@@ -105,18 +98,40 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
         self.alignContent()
     }
     
+    public override func layoutSubviews()
+    {
+        super.layoutSubviews()
+        self.align()
+    }
+    
+    public func align(#center: CGPoint, scale: CGFloat)
+    {
+        var zoom_rect = CGRectMake(0, 0, self.bounds.size.width/scale, self.bounds.size.height/scale)
+        zoom_rect.origin.x = center.x - zoom_rect.size.width/2.0
+        zoom_rect.origin.y = center.y - zoom_rect.size.height/2.0
+        self.zoomToRect(zoom_rect, animated: true)
+    }
+    
     private func align()
     {
         if let image = self.imageView.image {
-            var size = self.imageView.frame.size
-            var scalor = min(self.bounds.size.width/image.size.width, self.bounds.size.height/image.size.height)
-            var minSize = CGSizeMake(image.size.width * scalor, image.size.height * scalor)
-            var maxSize = CGSizeMake(minSize.width * self.maximumZoomScale, minSize.height * self.maximumZoomScale)
-            if size.width < minSize.width || size.height < minSize.height || size.width > maxSize.width || size.height > maxSize.height {
+            if self._prevBounds != self.frame {
+                var size = self.imageView.frame.size
+                var scalor = min(self.bounds.size.width/image.size.width, self.bounds.size.height/image.size.height)
                 self.setImage(image)
+                if scalor > 0 {
+                    var newZoomScale = size.width/image.size.width/scalor
+                    self.zoomScale = min(self.maximumZoomScale, max(self.minimumZoomScale, newZoomScale))
+                    var minSize = CGSizeMake(image.size.width * scalor, image.size.height * scalor)
+                    var maxSize = CGSizeMake(minSize.width * self.maximumZoomScale, minSize.height * self.maximumZoomScale)
+                    var width = size.width < minSize.width ? minSize.width : (size.width > maxSize.width ? maxSize.width : size.width)
+                    var height = width * image.size.height / image.size.width
+                    self.imageView.frame = CGRectMake(0, 0, width, height)
+                }
             }
             self.alignContent()
         }
+        self._prevBounds = self.frame
     }
     
     public func alignContent()
@@ -139,13 +154,16 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
         var scalor = min(self.bounds.size.width/imageSize.width, self.bounds.size.height/imageSize.height)
         var frame = CGRectApplyAffineTransform(CGRectMake(0, 0, imageSize.width, imageSize.height), CGAffineTransformMakeScale(scalor, scalor))
         self.imageView.frame = frame
+        self.alignContent()
     }
     
     public func reset()
     {
+        self._prevBounds = CGRectZero
         self.zoomScale = 1.0
         self.minimumZoomScale = 1.0
         self.maximumZoomScale = 3.0
+        self.bouncesZoom = true
         self.imageView.transform = CGAffineTransformIdentity
         self.contentSize = self.bounds.size
         self.contentOffset = CGPointZero
@@ -196,6 +214,7 @@ public class SCImageViewer: UIViewController, UICollectionViewDataSource, UIColl
         self.collectionView.dataSource = self
         self.collectionView.registerClass(SCImageViewerCell.self, forCellWithReuseIdentifier: "Cell")
         self.collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.collectionView.pagingEnabled = true
         
         self.view.addSubview(self.collectionView)
         let views = ["v": self.collectionView]
@@ -215,14 +234,16 @@ public class SCImageViewer: UIViewController, UICollectionViewDataSource, UIColl
         UIApplication.sharedApplication().setStatusBarHidden(animated, withAnimation: .Fade)
     }
     
-    public override func viewWillLayoutSubviews() {
+    public override func viewWillLayoutSubviews()
+    {
         super.viewWillLayoutSubviews()
         self.collectionView.frame = self.view.bounds
+        self.collectionView.collectionViewLayout.invalidateLayout()
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return 1
+        return 2
     }
     
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
