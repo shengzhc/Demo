@@ -92,6 +92,7 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
     public override func layoutSubviews()
     {
         super.layoutSubviews()
+        self.align()
     }
     
     public func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView?
@@ -102,6 +103,20 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
     public func scrollViewDidZoom(scrollView: UIScrollView)
     {
         self.alignContent()
+    }
+    
+    private func align()
+    {
+        if let image = self.imageView.image {
+            var size = self.imageView.frame.size
+            var scalor = min(self.bounds.size.width/image.size.width, self.bounds.size.height/image.size.height)
+            var minSize = CGSizeMake(image.size.width * scalor, image.size.height * scalor)
+            var maxSize = CGSizeMake(minSize.width * self.maximumZoomScale, minSize.height * self.maximumZoomScale)
+            if size.width < minSize.width || size.height < minSize.height || size.width > maxSize.width || size.height > maxSize.height {
+                self.setImage(image)
+            }
+            self.alignContent()
+        }
     }
     
     public func alignContent()
@@ -124,7 +139,6 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
         var scalor = min(self.bounds.size.width/imageSize.width, self.bounds.size.height/imageSize.height)
         var frame = CGRectApplyAffineTransform(CGRectMake(0, 0, imageSize.width, imageSize.height), CGAffineTransformMakeScale(scalor, scalor))
         self.imageView.frame = frame
-        self.alignContent()
     }
     
     public func reset()
@@ -135,11 +149,6 @@ public class SCZoomingImageView: UIScrollView, UIScrollViewDelegate
         self.imageView.transform = CGAffineTransformIdentity
         self.contentSize = self.bounds.size
         self.contentOffset = CGPointZero
-    }
-    
-    public func f()
-    {
-    
     }
 }
 
@@ -157,7 +166,6 @@ public class SCImageViewerCell: UICollectionViewCell
         if self.imageView.superview == nil {
             self.contentView.addSubview(self.imageView)
         }
-        self.imageView.frame = self.contentView.bounds
         self.imageView.setImage(image)
     }
     
@@ -187,12 +195,12 @@ public class SCImageViewer: UIViewController, UICollectionViewDataSource, UIColl
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.registerClass(SCImageViewerCell.self, forCellWithReuseIdentifier: "Cell")
-//        self.collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+        self.collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
         
         self.view.addSubview(self.collectionView)
-//        let views = ["v": self.collectionView]
-//        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
-//        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        let views = ["v": self.collectionView]
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
+        self.view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[v]|", options: NSLayoutFormatOptions(0), metrics: nil, views: views))
     }
     
     public override func viewWillAppear(animated: Bool)
